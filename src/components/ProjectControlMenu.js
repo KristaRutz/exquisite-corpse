@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
-function ProjectMenu(props) {
+function ProjectControlMenu(props) {
   const [hidden, setHidden] = useState(true);
 
   return (
@@ -21,8 +21,8 @@ function ProjectMenu(props) {
   );
 }
 
-ProjectMenu.propTypes = {
+ProjectControlMenu.propTypes = {
   onCreateProjectClick: PropTypes.func,
 };
 
-export default ProjectMenu;
+export default ProjectControlMenu;
