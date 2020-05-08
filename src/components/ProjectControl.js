@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import CreateProjectForm from "./CreateProjectForm";
 import ProjectGallery from "./ProjectGallery";
 import ProjectDashboard from "./ProjectDashboard";
@@ -88,5 +89,7 @@ class ProjectControl extends React.Component {
     }
   }
 }
+
+ProjectControl = connect()(ProjectControl);
 
 export default ProjectControl;
