@@ -10,6 +10,10 @@ class ProjectControl extends React.Component {
     };
   }
 
+  handleSelectProjectClick = () => {
+    alert("Clicked!");
+  };
+
   render() {
     if (this.state.creatingProject) {
       return <CreateProject />;
@@ -17,8 +21,9 @@ class ProjectControl extends React.Component {
       return (
         <>
           <h1>Test</h1>
-          {/* <Button onClick={this.handleNewProjectClick}></Button>
-          <ProjectGallery /> */}
+          <ProjectGallery
+            onSelectProjectClick={this.handleSelectProjectClick}
+          />
         </>
       );
     }
