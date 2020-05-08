@@ -1,5 +1,5 @@
 import React from "react";
-import CreateProject from "./CreateProject";
+import CreateProjectForm from "./CreateProjectForm";
 import ProjectGallery from "./ProjectGallery";
 import ProjectMenu from "./ProjectMenu";
 import Row from "react-bootstrap/Row";
@@ -17,15 +17,21 @@ class ProjectControl extends React.Component {
     alert("Clicked!");
   };
 
+  handleCreateProjectClick = () => {
+    this.setState({ creatingProject: true });
+  };
+
   render() {
     if (this.state.creatingProject) {
-      return <CreateProject />;
+      return <CreateProjectForm />;
     } else {
       return (
         <>
           <Row>
             <Col md="auto">
-              <ProjectMenu />
+              <ProjectMenu
+                onCreateProjectClick={this.handleCreateProjectClick}
+              />
             </Col>
             <Col>
               <ProjectGallery

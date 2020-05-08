@@ -3,13 +3,14 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
 
-function CreateProject() {
+function CreateProjectForm(props) {
   return (
     <Container>
       <h1>Begin a new project</h1>
       <hr />
-      <Form>
+      <Form onSubmit={() => props.onCreateProjectFormSubmission()}>
         <Form.Group>
           <Form.Label>Working Title</Form.Label>
           <Form.Control type="text" placeholder="Give your project a title" />
@@ -32,4 +33,8 @@ function CreateProject() {
   );
 }
 
-export default CreateProject;
+CreateProjectForm.propTypes = {
+  onCreateProjectFormSubmission: PropTypes.func,
+};
+
+export default CreateProjectForm;
