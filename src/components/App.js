@@ -1,13 +1,16 @@
 import React from "react";
-//import logo from "../logo.svg";
 //import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
+import AboutPage from "./About";
+import Header from "./Header";
 import Loading from "./Loading";
-import { BrowserRouter, Switch, Route, Router } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* Header */}
+      <Header />
       <Switch>
         <Route path="/loading">
           <div className="App">
@@ -15,9 +18,9 @@ function App() {
           </div>
         </Route>
         <Route path="/">
-          <div className="App">
-            <Loading />
-          </div>
+          <Container fluid>
+            <AboutPage />
+          </Container>
         </Route>
       </Switch>
     </BrowserRouter>
