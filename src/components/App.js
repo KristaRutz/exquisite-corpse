@@ -10,6 +10,7 @@ import Header from "./Header";
 import Loading from "./Loading";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ProjectControl from "./ProjectControl";
+import SignInForm from "./SignInForm";
 
 function App() {
   const firebase = useFirebase();
@@ -24,6 +25,7 @@ function App() {
           </div>
         </Route>
         <Route path="/new">
+          <SignInForm />
           <ProjectControl />
         </Route>
         <Route path="/">
