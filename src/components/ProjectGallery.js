@@ -6,6 +6,7 @@ import Media from "react-bootstrap/Media";
 function ProjectGallery(props) {
   return (
     <Container>
+      <h1 className="display-2">Project Gallery</h1>
       <Media onClick={() => props.onSelectProjectClick()}>
         <img
           width={64}

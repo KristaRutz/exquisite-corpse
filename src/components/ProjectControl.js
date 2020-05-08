@@ -1,6 +1,9 @@
 import React from "react";
 import CreateProject from "./CreateProject";
 import ProjectGallery from "./ProjectGallery";
+import ProjectMenu from "./ProjectMenu";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class ProjectControl extends React.Component {
   constructor(props) {
@@ -20,10 +23,16 @@ class ProjectControl extends React.Component {
     } else {
       return (
         <>
-          <h1>Test</h1>
-          <ProjectGallery
-            onSelectProjectClick={this.handleSelectProjectClick}
-          />
+          <Row>
+            <Col md="auto">
+              <ProjectMenu />
+            </Col>
+            <Col>
+              <ProjectGallery
+                onSelectProjectClick={this.handleSelectProjectClick}
+              />
+            </Col>
+          </Row>
         </>
       );
     }
