@@ -25,7 +25,7 @@ function App() {
           </div>
         </Route>
         <Route path="/new">
-          <SignInForm />
+          {/* <SignInForm /> */}
           <ProjectControl />
         </Route>
         <Route path="/">
