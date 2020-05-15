@@ -7,9 +7,23 @@ import { useFirestore } from "react-redux-firebase";
 import firebase from "firebase/app";
 
 function CreateContributionForm(props) {
+  const { projectId, onCreateContributionFormSubmission } = props;
   const db = useFirestore();
 
-  function addNewProjectToFirestore(event) {
+  db.get({ collection: "projects", doc: projectId }).then((project) => {
+    const currentProject = {
+      title: project.get("title"),
+      isPublished: project.get("isPublished"),
+      characterLimit: project.get("characterLimit"),
+      contributionLimit: project.get("contributionLimit"),
+      timeCreated: project.get("timeCreated"),
+      fragments: project.get("fragments"),
+      authors: project.get("authors"),
+      id: projectId,
+    };
+  });
+
+  function addNewFragmentToFirestore(event) {
     event.preventDefault();
     let placeholderId;
     const entry = {
@@ -27,23 +41,17 @@ function CreateContributionForm(props) {
       .then((docRef) => {
         placeholderId = docRef.id;
       });
-    const newProject = {
-      title: event.target.title.value,
-      isPublished: false,
-      characterLimit: 240,
-      timeCreated: db.FieldValue.serverTimestamp(),
-      fragments: [entry],
-    };
-    console.log(newProject);
-    db.collection("projects").add(newProject);
-    props.onCreateContributionFormSubmission();
+    const NewFragment = {};
+    console.log(NewFragment);
+    db.collection("projects").add(NewFragment);
+    onCreateContributionFormSubmission();
   }
 
   return (
     <Container>
       <h1>Contribute to the story</h1>
       <hr />
-      <Form onSubmit={addNewProjectToFirestore}>
+      <Form onSubmit={addNewFragmentToFirestore}>
         {/* <Form.Group>
           <Form.Label>Working Title</Form.Label>
           <Form.Control
@@ -76,6 +84,7 @@ function CreateContributionForm(props) {
 
 CreateContributionForm.propTypes = {
   onCreateContributionFormSubmission: PropTypes.func,
+  projectId: PropTypes.string,
 };
 
 export default CreateContributionForm;
