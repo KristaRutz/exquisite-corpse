@@ -10,7 +10,7 @@ import firebase from "firebase/app";
 function CreateProjectForm(props) {
   const db = useFirestore();
 
-  const addNewProjectToFirestore = (event) => {
+  function addNewProjectToFirestore(event) {
     event.preventDefault();
     let placeholderId;
     const entry = {
@@ -22,6 +22,7 @@ function CreateProjectForm(props) {
     //   const doc_ref = await db.collection(my_collection).add(doc)
     //   return doc_ref.id
     // }
+    console.log(entry);
     db.collection("fragments")
       .add(entry)
       .then((docRef) => {
@@ -34,9 +35,10 @@ function CreateProjectForm(props) {
       timeCreated: db.FieldValue.serverTimestamp(),
       fragments: [entry],
     };
+    console.log(newProject);
     db.collection("projects").add(newProject);
     props.onCreateProjectFormSubmission();
-  };
+  }
 
   return (
     <Container>
