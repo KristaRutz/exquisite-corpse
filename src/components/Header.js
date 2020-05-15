@@ -22,6 +22,7 @@ function Header() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="/new">New</Nav.Link>
+          <Nav.Link href="/room">Room</Nav.Link>
           <Nav.Link href="/loading">Link</Nav.Link>
           <NavDropdown title="Dropdown" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

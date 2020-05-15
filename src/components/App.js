@@ -11,6 +11,7 @@ import Loading from "./Loading";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ProjectControl from "./ProjectControl";
 import SignInForm from "./SignInForm";
+import Room from "./Room";
 
 function App() {
   const firebase = useFirebase();
@@ -19,6 +20,11 @@ function App() {
     <BrowserRouter>
       <Header />
       <Switch>
+        <Route path="/room">
+          <div className="Room">
+            <Room />
+          </div>
+        </Route>
         <Route path="/loading">
           <div className="App">
             <Loading />
