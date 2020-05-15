@@ -37,7 +37,12 @@ function Room(props) {
 
   if (isLoaded(projects)) {
     if (currentView === views[1] && currentProject != null) {
-      return <CreateContributionForm projectId={currentProject.id} />;
+      return (
+        <CreateContributionForm
+          project={currentProject}
+          onCreateContributionFormSubmission={handleClose}
+        />
+      );
     } else {
       return (
         <>

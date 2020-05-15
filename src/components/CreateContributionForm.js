@@ -7,8 +7,9 @@ import { useFirestore } from "react-redux-firebase";
 import firebase from "firebase/app";
 
 function CreateContributionForm(props) {
-  const { projectId, onCreateContributionFormSubmission } = props;
+  const { project, onCreateContributionFormSubmission } = props;
   const db = useFirestore();
+  const projectId = project.id;
 
   db.get({ collection: "projects", doc: projectId }).then((project) => {
     const currentProject = {
@@ -27,23 +28,17 @@ function CreateContributionForm(props) {
     event.preventDefault();
     let placeholderId;
     const entry = {
-      //authorId: firebase.auth().currentUser.uid,
+      authorId:
+        firebase.auth().currentUser != null
+          ? firebase.auth().currentUser.uid
+          : "anonymous",
       content: event.target.content.value,
-      timeSubmitted: db.FieldValue.serverTimestamp(),
+      //timeSubmitted: db.FieldValue.serverTimestamp(),
     };
-    // const post = async (doc) => {
-    //   const doc_ref = await db.collection(my_collection).add(doc)
-    //   return doc_ref.id
-    // }
     console.log(entry);
-    db.collection("fragments")
-      .add(entry)
-      .then((docRef) => {
-        placeholderId = docRef.id;
-      });
-    const NewFragment = {};
-    console.log(NewFragment);
-    db.collection("projects").add(NewFragment);
+    db.collection("projects")
+      .doc(projectId)
+      .update({ fragments: [...project.fragments, entry] });
     onCreateContributionFormSubmission();
   }
 
@@ -85,6 +80,7 @@ function CreateContributionForm(props) {
 CreateContributionForm.propTypes = {
   onCreateContributionFormSubmission: PropTypes.func,
   projectId: PropTypes.string,
+  project: PropTypes.object,
 };
 
 export default CreateContributionForm;
