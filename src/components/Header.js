@@ -17,7 +17,7 @@ function Header() {
     //   </ButtonGroup>
     // </NavBar>
     <Navbar sticky="top" bg="dark" expand="lg" variant="dark">
-      <Navbar.Brand href="/">Exquisite Corpse</Navbar.Brand>
+      <Navbar.Brand href="/">Story Jam</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
