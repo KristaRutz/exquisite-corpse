@@ -11,7 +11,7 @@ function Room(props) {
   useFirestoreConnect([{ collection: "projects" }]);
   const projects = useSelector((state) => state.firestore.ordered.projects);
 
-  //const db = useFirestore();
+  const db = useFirestore();
 
   // db.get({ collection: "projects", doc: projectId }).then((project) => {
   //   const currentProject = {
