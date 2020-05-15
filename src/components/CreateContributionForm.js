@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { useFirestore } from "react-redux-firebase";
 import firebase from "firebase/app";
 
-function CreateProjectForm(props) {
+function CreateContributionForm(props) {
   const db = useFirestore();
 
   function addNewProjectToFirestore(event) {
@@ -36,15 +36,15 @@ function CreateProjectForm(props) {
     };
     console.log(newProject);
     db.collection("projects").add(newProject);
-    props.onCreateProjectFormSubmission();
+    props.onCreateContributionFormSubmission();
   }
 
   return (
     <Container>
-      <h1>Begin a new project</h1>
+      <h1>Contribute to the story</h1>
       <hr />
       <Form onSubmit={addNewProjectToFirestore}>
-        <Form.Group>
+        {/* <Form.Group>
           <Form.Label>Working Title</Form.Label>
           <Form.Control
             type="text"
@@ -55,7 +55,7 @@ function CreateProjectForm(props) {
             This title will be visible to contributors, and it can be changed
             later.
           </Form.Text>
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group>
           <Form.Label>Content</Form.Label>
@@ -67,15 +67,15 @@ function CreateProjectForm(props) {
         </Form.Group>
         <Form.Group controlId="formBasicCheckbox"></Form.Group>
         <Button variant="warning" type="submit">
-          Create
+          Jam!
         </Button>
       </Form>
     </Container>
   );
 }
 
-CreateProjectForm.propTypes = {
-  onCreateProjectFormSubmission: PropTypes.func,
+CreateContributionForm.propTypes = {
+  onCreateContributionFormSubmission: PropTypes.func,
 };
 
-export default CreateProjectForm;
+export default CreateContributionForm;
