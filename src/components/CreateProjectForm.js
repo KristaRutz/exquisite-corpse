@@ -11,7 +11,10 @@ function CreateProjectForm(props) {
 
   function addNewProjectToFirestore(event) {
     event.preventDefault();
-    //authorId: firebase.auth().currentUser.uid,
+    const author =
+      firebase.auth().currentUser != null
+        ? firebase.auth().currentUser.uid
+        : "anonymous";
     const newProject = {
       title: event.target.title.value,
       description: event.target.description.value,
@@ -21,6 +24,7 @@ function CreateProjectForm(props) {
       timeCreated: db.FieldValue.serverTimestamp(),
       fragments: [],
       authors: [],
+      authorId: author,
     };
     console.log(newProject);
     db.collection("projects").add(newProject);

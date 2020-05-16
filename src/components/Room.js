@@ -7,7 +7,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { BsCollectionFill } from "react-icons/bs";
-// import { useFirestore } from "react-redux-firebase";
+import firebase from "firebase/app";
+import { useFirestore } from "react-redux-firebase";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
@@ -16,11 +17,16 @@ import CreateContributionForm from "./CreateContributionForm";
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
   useFirestoreConnect([{ collection: "projects" }]);
+  const db = useFirestore();
   const projects = useSelector((state) => state.firestore.ordered.projects);
   const [showModal, setShowModal] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
   const views = ["room", "add contribution"];
   const [currentView, setCurrentView] = useState(views[0]);
+  const auth = firebase.auth();
+  const currentUserId = firebase.auth().currentUser
+    ? firebase.auth().currentUser.uid
+    : "anonymous";
 
   function handleProjectClick(project) {
     setCurrentProject(project);
@@ -33,6 +39,13 @@ function Room(props) {
   function handleOkayClick() {
     setShowModal(false);
     setCurrentView(views[1]);
+  }
+
+  function handlePublishProject(project) {
+    db.collection("projects").doc(project.id).update({ isPublished: true });
+  }
+  function handleDeleteProject(project) {
+    db.collection("projects").doc(project.id).delete();
   }
 
   if (isLoaded(projects)) {
@@ -50,18 +63,54 @@ function Room(props) {
             <h1 className="display-2">...room</h1>
             <ListGroup>
               {projects.map((project) => (
-                <ListGroup.Item onClick={() => handleProjectClick(project)}>
+                <ListGroup.Item key={project.id}>
                   <Media>
-                    <BsCollectionFill style={{ size: 40, margin: "20px" }} />
-                    <Media.Body>
-                      <h5>{project.title}</h5>
-                      <p>{project.description}</p>
-                      <ProgressBar
-                        now={
-                          (100 / project.contributionLimit) *
-                          project.fragments.length
-                        }
-                      />
+                    <div>
+                      <ListGroup>
+                        {/* <BsCollectionFill style={{ size: 40, margin: "20px" }} /> */}
+                        {project.contributionLimit >
+                        project.fragments.length ? (
+                          <ListGroup.Item action disabled variant="primary">
+                            Publish
+                          </ListGroup.Item>
+                        ) : (
+                          <ListGroup.Item
+                            variant="primary"
+                            action
+                            onClick={() => handlePublishProject(project)}
+                          >
+                            Publish
+                          </ListGroup.Item>
+                        )}
+                        {currentUserId === project.authorId ||
+                        project.authorId === "anonymous" ? (
+                          <ListGroup.Item
+                            variant="danger"
+                            action
+                            onClick={() => handleDeleteProject(project)}
+                          >
+                            Delete
+                          </ListGroup.Item>
+                        ) : (
+                          <ListGroup.Item action disabled variant="danger">
+                            Delete
+                          </ListGroup.Item>
+                        )}
+                      </ListGroup>
+                    </div>
+                    <Media.Body onClick={() => handleProjectClick(project)}>
+                      <Container>
+                        <h5>{project.title}</h5>
+
+                        <p>{project.description}</p>
+                        <ProgressBar
+                          striped
+                          now={
+                            (100 / project.contributionLimit) *
+                            project.fragments.length
+                          }
+                        />
+                      </Container>
                     </Media.Body>
                   </Media>
                 </ListGroup.Item>
