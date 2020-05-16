@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import CreateContributionForm from "./CreateContributionForm";
+import LoadingScreen from "./LoadingScreen";
 
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
@@ -150,9 +151,10 @@ function Room(props) {
     }
   } else {
     return (
-      <React.Fragment>
-        <h3>Loading...</h3>
-      </React.Fragment>
+      // <React.Fragment>
+      //   <h3>Loading...</h3>
+      // </React.Fragment>
+      <LoadingScreen />
     );
   }
 }
