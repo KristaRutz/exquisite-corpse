@@ -56,7 +56,12 @@ function Room(props) {
                     <Media.Body>
                       <h5>{project.title}</h5>
                       <p>{project.description}</p>
-                      <ProgressBar now={(100 / 6) * project.fragments.length} />
+                      <ProgressBar
+                        now={
+                          (100 / project.contributionLimit) *
+                          project.fragments.length
+                        }
+                      />
                     </Media.Body>
                   </Media>
                 </ListGroup.Item>
