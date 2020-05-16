@@ -51,17 +51,26 @@ function CreateContributionForm(props) {
 
   return (
     <Container>
-      <h1>
+      <h1 className="display-4" style={styles.headerMargin}>
         Contribute to <em>{project.title}</em>
       </h1>
-      <hr />
+      {project.fragments.length > 0 ? (
+        <>
+          <h2 style={styles.headerMargin}>The story so far...</h2>
+          <p>Here's what others have contributed!</p>
+        </>
+      ) : (
+        <></>
+      )}
       <Accordion defaultActiveKey="0">
         {project.fragments.map((fragment, index) => {
           if (index === project.fragments.length - 1) {
             return (
               <Card>
                 <Accordion.Toggle as={Card.Header} eventKey="0">
-                  Part {index + 1}, by {fragment.authorId}
+                  <h5>
+                    Part {index + 1}, by {fragment.authorId}
+                  </h5>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
                   <Card.Body>{fragment.content}</Card.Body>
@@ -70,9 +79,11 @@ function CreateContributionForm(props) {
             );
           } else {
             return (
-              <Card bg="light">
+              <Card bg="light" text="muted">
                 <Card.Header>
-                  Part {index + 1}, by {fragment.authorId}
+                  <h5>
+                    Part {index + 1}, by {fragment.authorId}
+                  </h5>
                 </Card.Header>
               </Card>
             );
@@ -80,27 +91,23 @@ function CreateContributionForm(props) {
         })}
       </Accordion>
       <Form onSubmit={addNewFragmentToFirestore}>
-        {/* <Form.Group>
-          <Form.Label>Working Title</Form.Label>
-          <Form.Control
-            type="text"
-            name="title"
-            placeholder="Give your project a title"
-          />
-          <Form.Text className="text-muted">
-            This title will be visible to contributors, and it can be changed
-            later.
-          </Form.Text>
-        </Form.Group> */}
-
+        <h2 style={styles.headerMargin}>Part {project.fragments.length + 1}</h2>
         <Form.Group>
-          <Form.Label>Content</Form.Label>
+          <Form.Label>Add the next part of the StoryJam!</Form.Label>
           <Form.Control
             as="textarea"
             name="content"
             rows="4"
+            maxlength={project.characterLimit}
             placeholder="Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted..."
           />
+          <Form.Text className="text-muted">
+            <strong>
+              The creator of this project gave this description to guide
+              contributions
+            </strong>
+            : {project.description}
+          </Form.Text>
         </Form.Group>
         <Form.Group controlId="formBasicCheckbox"></Form.Group>
         <Button variant="warning" type="submit">
@@ -110,6 +117,12 @@ function CreateContributionForm(props) {
     </Container>
   );
 }
+
+const styles = {
+  headerMargin: {
+    marginTop: "1em",
+  },
+};
 
 CreateContributionForm.propTypes = {
   onCreateContributionFormSubmission: PropTypes.func,
