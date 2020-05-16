@@ -19,7 +19,7 @@ function CreateProjectForm(props) {
       title: event.target.title.value,
       description: event.target.description.value,
       isPublished: false,
-      characterLimit: 240,
+      characterLimit: 360,
       contributionLimit: 6,
       timeCreated: db.FieldValue.serverTimestamp(),
       fragments: [],
@@ -41,7 +41,7 @@ function CreateProjectForm(props) {
           <Form.Control
             type="text"
             name="title"
-            defaultValue="New Project"
+            defaultValue="My Project"
             placeholder="Give your project a title"
           />
           <Form.Text className="text-muted">
@@ -55,7 +55,8 @@ function CreateProjectForm(props) {
           <Form.Control
             as="textarea"
             name="description"
-            placeholder="Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted..."
+            maxlength="240"
+            placeholder="Use this area to provide details on the specific structure of contributions. For example, describe a preferred meter when creating poetry."
           />
         </Form.Group>
         <Button variant="warning" type="submit">
