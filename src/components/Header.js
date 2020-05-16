@@ -9,7 +9,9 @@ import {
 } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import InputGroup from "react-bootstrap/InputGroup";
 import { Link } from "react-router-dom";
+import { GoSearch } from "react-icons/go";
 
 function Header() {
   return (
@@ -23,9 +25,15 @@ function Header() {
     //     </Link>
     //   </ButtonGroup>
     // </NavBar>
-    <Navbar sticky="top" bg="warning" expand="lg" variant="dark">
+    <Navbar
+      sticky="top"
+      bg="warning"
+      expand="lg"
+      variant="dark"
+      style={styles.navBar}
+    >
       <Container>
-        <Navbar.Brand href="/">Story Jam</Navbar.Brand>
+        <Navbar.Brand href="/">StoryJam</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -45,13 +53,25 @@ function Header() {
             </NavDropdown>
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
+            <InputGroup>
+              <FormControl type="text" placeholder="Search" />
+              <InputGroup.Append>
+                <Button variant="primary">
+                  <GoSearch />
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
           </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
+
+const styles = {
+  navBar: {
+    opacity: 0.9,
+  },
+};
 
 export default Header;
