@@ -35,9 +35,9 @@ function App() {
           {/* <SignInForm /> */}
           <ProjectControl />
         </Route>
-        <Route path="/account">
+        {/* <Route path="/account">
           <AccountControl />
-        </Route>
+        </Route> */}
         <Route path="/">
           <Container fluid>
             <AboutPage />
