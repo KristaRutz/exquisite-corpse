@@ -10,8 +10,9 @@ import Header from "./Header";
 import Loading from "./Loading";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ProjectControl from "./ProjectControl";
-import SignInForm from "./SignInForm";
+import SignInForm from "./LogInForm";
 import Room from "./Room";
+import AccountControl from "./AccountControl";
 
 function App() {
   const firebase = useFirebase();
@@ -33,6 +34,9 @@ function App() {
         <Route path="/new">
           {/* <SignInForm /> */}
           <ProjectControl />
+        </Route>
+        <Route path="/account">
+          <AccountControl />
         </Route>
         <Route path="/">
           <Container fluid>

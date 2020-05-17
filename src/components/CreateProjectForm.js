@@ -25,6 +25,8 @@ function CreateProjectForm(props) {
       fragments: [],
       authors: [],
       authorId: author,
+      // roomID?
+      // isPrivate/Public?
     };
     console.log(newProject);
     db.collection("projects").add(newProject);
@@ -56,7 +58,7 @@ function CreateProjectForm(props) {
             as="textarea"
             name="description"
             maxlength="240"
-            placeholder="Use this area to provide details on the specific structure of contributions. For example, describe a preferred meter when creating poetry."
+            placeholder="Optionally use this area to provide details on the specific structure of contributions. For example, describe a preferred meter when creating poetry."
           />
         </Form.Group>
         <Button variant="warning" type="submit">
