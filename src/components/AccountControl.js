@@ -2,8 +2,8 @@ import React from "react";
 import firebase from "firebase/app";
 import { isLoaded } from "react-redux-firebase";
 import LoadingScreen from "./LoadingScreen";
-import SignUpForm from "./RegisterForm";
-import SignInForm from "./LogInForm";
+import RegistrationForm from "./RegistrationForm";
+import LogInForm from "./LogInForm";
 import AccountDetails from "./AccountDetails";
 import { useState } from "react";
 
@@ -32,9 +32,9 @@ function AccountControl() {
       />
     );
   } else if (currentView === "register") {
-    return <SignUpForm onLogInClick={handleViewLogIn} />;
+    return <RegistrationForm onLogInClick={handleViewLogIn} />;
   } else if (currentView === "login") {
-    return <SignInForm onRegisterClick={handleViewRegister} />;
+    return <LogInForm onRegisterClick={handleViewRegister} />;
   } else if (currentView === "logged out") {
     return <>{/* loggedOutScreen? */}</>;
   }
