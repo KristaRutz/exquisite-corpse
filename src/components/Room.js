@@ -55,9 +55,18 @@ function Room(props) {
     setShowModal(false);
     setCurrentProject(null);
   };
+  // function handleProjectDetailsClick() {
+  //   return (
+  //     <ProjectDetails
+  //       project={currentProject}
+  //       onBackToRoomClick={handleClose}
+  //     />
+  //   );
+  // }
   function handleOkayClick() {
     setShowModal(false);
-    setCurrentView(views[1]);
+    //setCurrentView(views[1]);
+    setKey(VIEW_PROJECT_DETAILS);
   }
   function handleCreateProjectFormSubmission() {
     alert("project was successfully created!");
@@ -156,6 +165,19 @@ function Room(props) {
                           handleProjectClick={handleProjectClick}
                           handlePublishProject={handlePublishProject}
                         />
+                      </Tab.Pane>
+                      <Tab.Pane eventKey={VIEW_PROJECT_DETAILS}>
+                        {currentProject != null ? (
+                          <>
+                            <h1>Project Details</h1>
+                            <ProjectDetails
+                              project={currentProject}
+                              onBackToRoomClick={handleClose}
+                            />
+                          </>
+                        ) : (
+                          <p>null</p>
+                        )}
                       </Tab.Pane>
                     </Tab.Content>
                   </Container>
