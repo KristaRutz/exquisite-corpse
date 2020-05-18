@@ -4,10 +4,11 @@ import { isLoaded } from "react-redux-firebase";
 import LoadingScreen from "./LoadingScreen";
 import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 import { useState } from "react";
 
 function AccountDetails(props) {
-  const { user } = props;
+  const { user, onLogOutClick } = props;
   const views = ["register", "login", "logged out", "account details"];
   const [currentView, setCurrentView] = useState(views[0]);
   const auth = firebase.auth();
@@ -19,6 +20,10 @@ function AccountDetails(props) {
       <Container>
         <h1 className="display-2">Account Details</h1>
         <p>{user.displayName}</p>
+        <p>{user.uid}</p>
+        <Button onClick={onLogOutClick} variant="danger">
+          Sign Out
+        </Button>
       </Container>
     );
   }
@@ -26,6 +31,7 @@ function AccountDetails(props) {
 
 AccountDetails.propTypes = {
   user: PropTypes.object,
+  onLogOutClick: PropTypes.func,
 };
 
 export default AccountDetails;

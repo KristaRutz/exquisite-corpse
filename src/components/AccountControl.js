@@ -19,18 +19,29 @@ function AccountControl() {
     setCurrentView(views[1]);
   }
   function handleViewLogOut() {
-    setCurrentView(views[2]);
+    setCurrentView(views[0]);
+  }
+
+  function doSignOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        handleViewLogOut();
+        console.log("Successfully signed out!");
+        // swal.fire(
+        //   'Successfully signed out!',
+        // )
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
   }
 
   if (!isLoaded(auth)) {
     return <LoadingScreen />;
   } else if (auth.currentUser != null) {
-    return (
-      <AccountDetails
-        user={auth.currentUser}
-        onLogOutClick={handleViewLogOut}
-      />
-    );
+    return <AccountDetails user={auth.currentUser} onLogOutClick={doSignOut} />;
   } else if (currentView === "register") {
     return <RegistrationForm onLogInClick={handleViewLogIn} />;
   } else if (currentView === "login") {

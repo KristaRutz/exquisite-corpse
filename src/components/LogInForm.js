@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import firebase from "firebase/app";
-import * as firebaseui from "firebaseui";
+import firebase from "firebase";
+//import * as firebaseui from "firebaseui";
 import LoadingScreen from "./LoadingScreen";
-import { StyledFirebaseAuth } from "react-firebaseui";
+// import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import FirebaseAuth from "react-firebaseui/FirebaseAuth";
 
 const uiConfig = {
   callbacks: {
@@ -24,7 +25,7 @@ const uiConfig = {
   },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: "popup",
-  signInSuccessUrl: "<url-to-redirect-to-on-success>",
+  signInSuccessUrl: "/",
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -54,20 +55,12 @@ const uiConfig = {
   privacyPolicyUrl: "<your-privacy-policy-url>",
 };
 
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-ui.start("#firebaseui-auth-container", uiConfig);
-
-if (ui.isPendingRedirect()) {
-  ui.start("#firebaseui-auth-container", uiConfig);
-}
-
 function LogInForm(props) {
   return (
     <Container>
       <Button onClick={props.onRegisterClick}>Toggle register</Button>
       <h1 className="display-2">Sign in to your account</h1>
-      <div id="firebaseui-auth-container"></div>
+      <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <div id="loader">
         <LoadingScreen />
       </div>
