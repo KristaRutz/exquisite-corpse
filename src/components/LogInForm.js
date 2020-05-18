@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// var firebase = require("firebase");
-// var firebaseui = require("firebaseui");
+import firebase from "firebase/app";
+import * as firebaseui from "firebaseui";
 
 // var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
