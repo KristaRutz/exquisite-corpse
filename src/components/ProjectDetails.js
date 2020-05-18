@@ -7,12 +7,13 @@ import Card from "react-bootstrap/Card";
 
 function ProjectDetails(props) {
   const { project, onBackToRoomClick } = props;
-  return (
-    <Container>
-      <h1 className="display-4" style={styles.headerMargin}>
-        <em>{project.title}</em>
-      </h1>
-      {/* {project.fragments.length > 0 ? (
+  if (project.isPublished) {
+    return (
+      <Container>
+        <h1 className="display-4" style={styles.headerMargin}>
+          <em>{project.title}</em>
+        </h1>
+        {/* {project.fragments.length > 0 ? (
         <>
           <h2 style={styles.headerMargin}>The story so far...</h2>
           <p>Here's what others have contributed!</p>
@@ -20,36 +21,43 @@ function ProjectDetails(props) {
       ) : (
         <></>
       )} */}
-      <Accordion defaultActiveKey="0">
-        {project.fragments.map((fragment, index) => {
-          // if (index === project.fragments.length - 1) {
-          return (
-            <Card key={index}>
-              {/* <Accordion.Toggle as={Card.Header} eventKey="0">
+        <Accordion defaultActiveKey="0">
+          {project.fragments.map((fragment, index) => {
+            // if (index === project.fragments.length - 1) {
+            return (
+              <Card key={index}>
+                {/* <Accordion.Toggle as={Card.Header} eventKey="0">
                 <h5>
                   Part {index + 1}, by {fragment.authorId}
                 </h5>
               </Accordion.Toggle> */}
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>{fragment.content}</Card.Body>
-              </Accordion.Collapse>
-            </Card>
-          );
-          // } else {
-          //   return (
-          //     <Card key={index} bg="light" text="muted">
-          //       <Card.Header>
-          //         <h5>
-          //           Part {index + 1}, by {fragment.authorId}
-          //         </h5>
-          //       </Card.Header>
-          //     </Card>
-          //   );
-          // }
-        })}
-      </Accordion>
-    </Container>
-  );
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>{fragment.content}</Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            );
+            // } else {
+            //   return (
+            //     <Card key={index} bg="light" text="muted">
+            //       <Card.Header>
+            //         <h5>
+            //           Part {index + 1}, by {fragment.authorId}
+            //         </h5>
+            //       </Card.Header>
+            //     </Card>
+            //   );
+            // }
+          })}
+        </Accordion>
+      </Container>
+    );
+  } else {
+    return (
+      <>
+        <h1>This project hasn't been published yet!</h1>
+      </>
+    );
+  }
 }
 
 const styles = {

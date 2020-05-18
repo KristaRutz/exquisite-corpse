@@ -30,7 +30,7 @@ function PublishedProjectsList(props) {
     ? firebase.auth().currentUser.uid
     : "anonymous";
   return (
-    <Container fluid>
+    <Container>
       <h2>Published projects</h2>
       <ListGroup>
         {projects

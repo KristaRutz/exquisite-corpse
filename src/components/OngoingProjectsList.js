@@ -30,7 +30,7 @@ function OngoingProjectsList(props) {
     ? firebase.auth().currentUser.uid
     : "anonymous";
   return (
-    <Container fluid>
+    <Container>
       <ListGroup>
         {projects
           .filter((project) => !project.isPublished)
