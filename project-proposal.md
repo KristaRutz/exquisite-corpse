@@ -2,7 +2,7 @@
 
 ## Name of Student: Krista Rutz
 
-## Project Working Title: _Exquisite Corpse: the game_
+## Project Working Title: _StoryJam_
 
 ## Project’s Purpose or Goal:
 
@@ -21,7 +21,7 @@ A user may receive a partially complete story and be prompted to add a few lines
 _Who are the main users? What problems are they facing that you will solve? What will it do for users? What is the purpose/goal of the project?_
 
 - The users might be groups of friends, families, classes, language students, or anyone seeking entertainment or a community.
-- For some, it might be a problem to use the traditional method of paper because they wish to utilize the exquisite cadaver technique with people physically far away from them.
+- For some, it might be a problem to use the traditional method of paper because they wish to utilize the _exquisite cadaver_ technique with people physically far away from them.
 - For others, they might have a way to do this electronically that takes extra legwork to ensure all pieces of the story are gathered in the same format without risking the exposure of earlier contributions to later contributors.
 - This project will take care of this by using a digital platform with streamlined, intuitive UI that allows users to collaborate on their stories and handles the collection of contributions and publication of the final work in one application.
 
