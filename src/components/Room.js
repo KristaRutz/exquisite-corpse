@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import CreateContributionForm from "./CreateContributionForm";
+import ProjectDetails from "./ProjectDetails";
 import LoadingScreen from "./LoadingScreen";
 
 function Room(props) {
@@ -22,7 +23,10 @@ function Room(props) {
   const projects = useSelector((state) => state.firestore.ordered.projects);
   const [showModal, setShowModal] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
-  const views = ["room", "add contribution"];
+  const VIEW_ROOM = "room view";
+  const VIEW_ADD_CONTRIBUTION_FORM = "view add contribution form";
+  const VIEW_PROJECT_DETAILS = "view project details";
+  const views = [VIEW_ROOM, VIEW_ADD_CONTRIBUTION_FORM, VIEW_PROJECT_DETAILS];
   const [currentView, setCurrentView] = useState(views[0]);
   const auth = firebase.auth();
   const currentUserId = firebase.auth().currentUser
@@ -31,7 +35,11 @@ function Room(props) {
 
   function handleProjectClick(project) {
     setCurrentProject(project);
-    setShowModal(true);
+    if (project.isPublished) {
+      setCurrentView(views[2]);
+    } else {
+      setShowModal(true);
+    }
   }
   const handleClose = () => {
     setShowModal(false);
@@ -49,12 +57,20 @@ function Room(props) {
     db.collection("projects").doc(project.id).delete();
   }
 
-  if (isLoaded(projects)) {
+  if (isLoaded(projects) && isLoaded(auth)) {
     if (currentView === views[1] && currentProject != null) {
       return (
         <CreateContributionForm
           project={currentProject}
           onCreateContributionFormSubmission={handleClose}
+        />
+      );
+    }
+    if (currentView === views[2] && currentProject != null) {
+      return (
+        <ProjectDetails
+          project={currentProject}
+          onBackToRoomClick={handleClose}
         />
       );
     } else {
@@ -63,61 +79,124 @@ function Room(props) {
           <Container>
             <h1 className="display-2">...room</h1>
             <ListGroup>
-              {projects.map((project) => (
-                <ListGroup.Item key={project.id}>
-                  <Media>
-                    <div>
-                      <ListGroup>
-                        {project.contributionLimit >
-                        project.fragments.length ? (
-                          <ListGroup.Item action disabled variant="primary">
-                            Publish
-                          </ListGroup.Item>
-                        ) : (
-                          <ListGroup.Item
-                            variant="primary"
-                            action
-                            onClick={() => handlePublishProject(project)}
-                          >
-                            Publish
-                          </ListGroup.Item>
-                        )}
-                        {currentUserId === project.authorId ||
-                        project.authorId === "anonymous" ? (
-                          <ListGroup.Item
-                            variant="danger"
-                            action
-                            onClick={() => handleDeleteProject(project)}
-                          >
-                            Delete
-                          </ListGroup.Item>
-                        ) : (
-                          <ListGroup.Item action disabled variant="danger">
-                            Delete
-                          </ListGroup.Item>
-                        )}
-                      </ListGroup>
-                    </div>
-                    <Media.Body onClick={() => handleProjectClick(project)}>
-                      <Container>
-                        <h5>{project.title}</h5>
-                        <p>
-                          Created at{" "}
-                          {project.timeCreated.toDate().toLocaleTimeString()}
-                        </p>
-                        <p className="lead">{project.description}</p>
-                        <ProgressBar
-                          striped
-                          now={
-                            (100 / project.contributionLimit) *
-                            project.fragments.length
-                          }
-                        />
-                      </Container>
-                    </Media.Body>
-                  </Media>
-                </ListGroup.Item>
-              ))}
+              {projects
+                .filter((project) => !project.isPublished)
+                .map((project) => (
+                  <ListGroup.Item key={project.id}>
+                    <Media>
+                      <div>
+                        <ListGroup>
+                          {project.contributionLimit >
+                          project.fragments.length ? (
+                            <ListGroup.Item action disabled variant="primary">
+                              Publish
+                            </ListGroup.Item>
+                          ) : (
+                            <ListGroup.Item
+                              variant="primary"
+                              action
+                              onClick={() => handlePublishProject(project)}
+                            >
+                              Publish
+                            </ListGroup.Item>
+                          )}
+                          {currentUserId === project.authorId ||
+                          project.authorId === "anonymous" ? (
+                            <ListGroup.Item
+                              variant="danger"
+                              action
+                              onClick={() => handleDeleteProject(project)}
+                            >
+                              Delete
+                            </ListGroup.Item>
+                          ) : (
+                            <ListGroup.Item action disabled variant="danger">
+                              Delete
+                            </ListGroup.Item>
+                          )}
+                        </ListGroup>
+                      </div>
+                      <Media.Body onClick={() => handleProjectClick(project)}>
+                        <Container>
+                          <h5>{project.title}</h5>
+                          <p>
+                            Created at{" "}
+                            {project.timeCreated.toDate().toLocaleTimeString()}
+                          </p>
+                          <p className="lead">{project.description}</p>
+                          <ProgressBar
+                            striped
+                            now={
+                              (100 / project.contributionLimit) *
+                              project.fragments.length
+                            }
+                          />
+                        </Container>
+                      </Media.Body>
+                    </Media>
+                  </ListGroup.Item>
+                ))}
+            </ListGroup>
+
+            <h2>Published projects</h2>
+            <ListGroup>
+              {projects
+                .filter((project) => project.isPublished)
+                .map((project) => (
+                  <ListGroup.Item key={project.id}>
+                    <Media>
+                      <div>
+                        <ListGroup>
+                          {project.contributionLimit >
+                          project.fragments.length ? (
+                            <ListGroup.Item action disabled variant="primary">
+                              Publish
+                            </ListGroup.Item>
+                          ) : (
+                            <ListGroup.Item
+                              variant="primary"
+                              action
+                              onClick={() => handlePublishProject(project)}
+                            >
+                              Publish
+                            </ListGroup.Item>
+                          )}
+                          {currentUserId === project.authorId ||
+                          project.authorId === "anonymous" ? (
+                            <ListGroup.Item
+                              variant="danger"
+                              action
+                              onClick={() => handleDeleteProject(project)}
+                            >
+                              Delete
+                            </ListGroup.Item>
+                          ) : (
+                            <ListGroup.Item action disabled variant="danger">
+                              Delete
+                            </ListGroup.Item>
+                          )}
+                        </ListGroup>
+                      </div>
+                      <Media.Body onClick={() => handleProjectClick(project)}>
+                        <Container>
+                          <h5>{project.title}</h5>
+                          <p>
+                            Created at{" "}
+                            {project.timeCreated.toDate().toLocaleTimeString()}
+                          </p>
+                          <p className="lead">{project.description}</p>
+                          <ProgressBar
+                            striped
+                            now={
+                              (100 / project.contributionLimit) *
+                              project.fragments.length
+                            }
+                          />
+                        </Container>
+                      </Media.Body>
+                    </Media>
+                  </ListGroup.Item>
+                ))}
             </ListGroup>
           </Container>
 
