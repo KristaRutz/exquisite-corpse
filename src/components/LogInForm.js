@@ -6,17 +6,21 @@ import Button from "react-bootstrap/Button";
 import firebase from "firebase/app";
 import * as firebaseui from "firebaseui";
 
-// var ui = new firebaseui.auth.AuthUI(firebase.auth());
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-// ui.start("#firebaseui-auth-container", {
-//   signInOptions: [
-//     {
-//       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//       requireDisplayName: false,
-//     },
-//     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-//   ],
-// });
+ui.start("#firebaseui-auth-container", {
+  signInOptions: [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false,
+    },
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
+});
+
+if (ui.isPendingRedirect()) {
+  ui.start("#firebaseui-auth-container", uiConfig);
+}
 
 function LogInForm(props) {
   return (
