@@ -57,7 +57,7 @@ function CreateProjectForm(props) {
           <Form.Control
             as="textarea"
             name="description"
-            maxlength="240"
+            maxLength="240"
             placeholder="Optionally use this area to provide details on the specific structure of contributions. For example, describe a preferred meter when creating poetry."
           />
         </Form.Group>

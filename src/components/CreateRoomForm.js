@@ -1,23 +1,24 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import PropTypes from "prop-types";
 import { useFirestore } from "react-redux-firebase";
 import { useState } from "react";
-import { isLoaded } from "react-redux-firebase";
-import LoadingScreen from "./LoadingScreen";
 import firebase from "firebase/app";
-import { useSelector } from "react-redux";
 import "./CreateRoomForm.css";
+import { Redirect } from "react-router-dom";
 
 function CreateRoomForm() {
   const db = useFirestore();
   const auth = firebase.auth();
-  //const profile = useSelector(({ firebase: { profile } }) => profile);
-  const profile = useSelector((state) => state.firebase.profile);
   const [isPublic, setIsPublic] = useState(false);
-  const [members, setMembers] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  const [currentRoomId, setCurrentRoomId] = useState(null);
+  const defaultRoomName =
+    auth.currentUser === null
+      ? "New Room"
+      : `${auth.currentUser.displayName}'s Room`;
 
   function handleAddingRoomToFirestore(event) {
     event.preventDefault();
@@ -37,10 +38,21 @@ function CreateRoomForm() {
       timeCreated: db.FieldValue.serverTimestamp(),
     };
     console.log(newRoom);
-    db.collection("rooms").add(newRoom);
-    //props.onCreateRoomFormSubmission();
+    db.collection("rooms")
+      .add(newRoom)
+      .then(function (docRef) {
+        setCurrentRoomId(docRef.id);
+        return setRedirect(true);
+      })
+      .catch(function (error) {
+        alert("Error adding document: ", error);
+      });
   }
-
+  function RenderRedirect() {
+    if (redirect) {
+      return <Redirect to={`/room/${currentRoomId}`} />;
+    } else return <></>;
+  }
   function TitleVisibilityMessage() {
     if (isPublic) {
       return (
@@ -86,16 +98,26 @@ function CreateRoomForm() {
       );
     }
   }
-
-  const defaultRoomName =
-    auth.currentUser === null
-      ? "New Room"
-      : `${auth.currentUser.displayName}'s Room`;
+  function AlertAuthStatus() {
+    if (auth.currentUser === null) {
+      return (
+        <Alert key="no-user-alert" variant="danger">
+          You are not logged in! You can still make a room anonymously, but you
+          cannot be a room owner, even for private rooms.{" "}
+          <Alert.Link href="/account">Sign in</Alert.Link> if you wish to access
+          this functionality.
+        </Alert>
+      );
+    }
+    return null;
+  }
   return (
     <Container>
+      <RenderRedirect />
       <h1 className="display-3" style={styles.headerMargin}>
         Create a room
       </h1>
+      <AlertAuthStatus />
       <Form onSubmit={handleAddingRoomToFirestore}>
         <Form.Group>
           <Form.Label>Make this room public?</Form.Label>
@@ -118,6 +140,7 @@ function CreateRoomForm() {
             type="text"
             name="roomName"
             defaultValue={defaultRoomName}
+            required
           />
           <TitleVisibilityMessage />
         </Form.Group>
@@ -145,16 +168,5 @@ export default CreateRoomForm;
 const styles = {
   headerMargin: {
     marginTop: "1em",
-  },
-  switch: {
-    position: "relative",
-    display: "inline-block",
-    width: 60,
-    height: 34,
-    input: {
-      opacity: 0,
-      width: 0,
-      height: 0,
-    },
   },
 };
