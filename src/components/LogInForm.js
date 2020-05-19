@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import firebase from "firebase";
 //import * as firebaseui from "firebaseui";
 import LoadingScreen from "./LoadingScreen";
-// import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import FirebaseAuth from "react-firebaseui/FirebaseAuth";
 
 const uiConfig = {
@@ -60,7 +60,7 @@ function LogInForm(props) {
     <Container>
       <Button onClick={props.onRegisterClick}>Toggle register</Button>
       <h1 className="display-2">Sign in to your account</h1>
-      <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <div id="loader">
         <LoadingScreen />
       </div>

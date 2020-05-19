@@ -9,17 +9,17 @@ import { useState } from "react";
 
 function AccountControl() {
   const views = ["register", "login", "logged out"];
-  const [currentView, setCurrentView] = useState(views[0]);
+  const [currentView, setCurrentView] = useState(views[1]);
   const auth = firebase.auth();
 
   function handleViewRegister() {
-    setCurrentView(views[0]);
+    //setCurrentView(views[0]);
   }
   function handleViewLogIn() {
     setCurrentView(views[1]);
   }
   function handleViewLogOut() {
-    setCurrentView(views[0]);
+    setCurrentView(views[1]);
   }
 
   function doSignOut() {
@@ -42,8 +42,8 @@ function AccountControl() {
     return <LoadingScreen />;
   } else if (auth.currentUser != null) {
     return <AccountDetails user={auth.currentUser} onLogOutClick={doSignOut} />;
-  } else if (currentView === "register") {
-    return <RegistrationForm onLogInClick={handleViewLogIn} />;
+    // } else if (currentView === "register") {
+    //   return <RegistrationForm onLogInClick={handleViewLogIn} />;
   } else if (currentView === "login") {
     return <LogInForm onRegisterClick={handleViewRegister} />;
   } else if (currentView === "logged out") {
