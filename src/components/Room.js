@@ -24,6 +24,7 @@ import PublishedProjectsList from "./PublishedProjectsList";
 import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
 import { useRouteMatch } from "react-router-dom";
+import RoomKeyInput from "./RoomKeyInput";
 
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
@@ -106,6 +107,7 @@ function Room(props) {
         <>
           <Container>
             <h1 className="display-2">...room</h1>
+            {/* <RoomKeyInput /> */}
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Row>
                 <Col sm={3}>
@@ -149,6 +151,7 @@ function Room(props) {
                     <Tab.Content>
                       <Tab.Pane eventKey={VIEW_CREATE_A_PROJECT}>
                         <CreateProjectForm
+                          roomId={roomId}
                           onCreateProjectFormSubmission={
                             handleCreateProjectFormSubmission
                           }
@@ -157,7 +160,7 @@ function Room(props) {
                       <Tab.Pane eventKey="first">
                         <h1>Header 1</h1>
                         <OngoingProjectsList
-                          projects={projects}
+                          projects={roomProjects}
                           handleDeleteProject={handleDeleteProject}
                           handleProjectClick={handleProjectClick}
                           handlePublishProject={handlePublishProject}
@@ -166,7 +169,7 @@ function Room(props) {
                       <Tab.Pane eventKey="second">
                         <h1>Header 2</h1>
                         <PublishedProjectsList
-                          projects={projects}
+                          projects={roomProjects}
                           handleDeleteProject={handleDeleteProject}
                           handleProjectClick={handleProjectClick}
                           handlePublishProject={handlePublishProject}

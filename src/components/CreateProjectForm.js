@@ -8,6 +8,7 @@ import firebase from "firebase/app";
 
 function CreateProjectForm(props) {
   const db = useFirestore();
+  const { onCreateProjectFormSubmission, roomId } = props;
 
   function addNewProjectToFirestore(event) {
     event.preventDefault();
@@ -25,12 +26,12 @@ function CreateProjectForm(props) {
       fragments: [],
       authors: [],
       authorId: author,
-      // roomID?
+      roomId,
       // isPrivate/Public?
     };
     console.log(newProject);
     db.collection("projects").add(newProject);
-    props.onCreateProjectFormSubmission();
+    onCreateProjectFormSubmission();
   }
 
   return (
@@ -71,6 +72,7 @@ function CreateProjectForm(props) {
 
 CreateProjectForm.propTypes = {
   onCreateProjectFormSubmission: PropTypes.func,
+  roomId: PropTypes.string,
 };
 
 export default CreateProjectForm;
