@@ -8,7 +8,14 @@ import Container from "react-bootstrap/Container";
 import AboutPage from "./About";
 import Header from "./Header";
 import Loading from "./Loading";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  matchPath,
+  useRouteMatch,
+  useParams,
+} from "react-router-dom";
 import ProjectControl from "./ProjectControl";
 import SignInForm from "./LogInForm";
 import Room from "./Room";
@@ -21,10 +28,8 @@ function App() {
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="/room">
-          <div className="Room">
-            <Room />
-          </div>
+        <Route path="/room/:id">
+          <RoomRouting />
         </Route>
         <Route path="/loading">
           <div className="App">
@@ -32,7 +37,6 @@ function App() {
           </div>
         </Route>
         <Route path="/new">
-          {/* <SignInForm /> */}
           <ProjectControl />
         </Route>
         <Route path="/account">
@@ -58,3 +62,12 @@ const enhance = connect(
 enhance(App);
 
 export default App;
+
+function RoomRouting() {
+  let { id } = useParams();
+  return (
+    <div className="Room">
+      <Room roomId={id} />
+    </div>
+  );
+}
