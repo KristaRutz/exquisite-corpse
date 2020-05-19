@@ -17,6 +17,7 @@ import {
   useParams,
 } from "react-router-dom";
 import ProjectControl from "./ProjectControl";
+import CreateRoomForm from "./CreateRoomForm";
 import SignInForm from "./LogInForm";
 import Room from "./Room";
 import AccountControl from "./AccountControl";
@@ -40,7 +41,7 @@ function App() {
           </div>
         </Route>
         <Route path="/new">
-          <ProjectControl />
+          <CreateRoomForm />
         </Route>
         <Route path="/account">
           <AccountControl />
