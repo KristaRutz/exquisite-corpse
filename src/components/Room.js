@@ -23,6 +23,7 @@ import OngoingProjectsList from "./OngoingProjectsList";
 import PublishedProjectsList from "./PublishedProjectsList";
 import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
+import { useRouteMatch } from "react-router-dom";
 
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
@@ -42,6 +43,7 @@ function Room(props) {
     ? firebase.auth().currentUser.uid
     : "anonymous";
   const [key, setKey] = useState("home");
+  console.log(roomId);
 
   function handleProjectClick(project) {
     setCurrentProject(project);
@@ -66,6 +68,7 @@ function Room(props) {
   function handleOkayClick() {
     setShowModal(false);
     //setCurrentView(views[1]);
+    setCurrentView(views[1]);
     setKey(VIEW_PROJECT_DETAILS);
   }
   function handleCreateProjectFormSubmission() {
@@ -80,6 +83,9 @@ function Room(props) {
   }
 
   if (isLoaded(projects) && isLoaded(auth)) {
+    const roomProjects = projects.filter(
+      (project) => project.roomId === roomId
+    );
     if (currentView === views[1] && currentProject != null) {
       return (
         <CreateContributionForm

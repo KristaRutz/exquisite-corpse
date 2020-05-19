@@ -31,6 +31,9 @@ function App() {
         <Route path="/room/:id">
           <RoomRouting />
         </Route>
+        <Route path="/room">
+          <Room />
+        </Route>
         <Route path="/loading">
           <div className="App">
             <Loading />
@@ -65,9 +68,5 @@ export default App;
 
 function RoomRouting() {
   let { id } = useParams();
-  return (
-    <div className="Room">
-      <Room roomId={id} />
-    </div>
-  );
+  return <Room roomId={id} />;
 }
