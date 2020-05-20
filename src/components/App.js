@@ -73,5 +73,5 @@ export default App;
 
 function RoomRouting() {
   let { id } = useParams();
-  return <RoomControl roomId={id} />;
+  return <Room roomId={id} />;
 }

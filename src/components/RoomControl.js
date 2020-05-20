@@ -17,6 +17,7 @@ import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
 import { useRouteMatch } from "react-router-dom";
 import RoomKeyInput from "./RoomKeyInput";
+import { Redirect } from "react-router-dom";
 
 function RoomControl(props) {
   const { roomId, onSelectRoomClick } = props;
@@ -27,24 +28,9 @@ function RoomControl(props) {
   const db = useFirestore();
   const projects = useSelector((state) => state.firestore.ordered.projects);
   //db.get({ collection: "rooms", doc: roomId });
-  const currentRoom = useSelector(
-    ({ firestore: { data } }) => data.rooms[roomId]
-  );
+  //const currentRoom = useSelector(({ firestore: { data } }) => data.rooms[roomId]);
   const roomRef = db.collection("rooms").doc(roomId);
   const [room, setRoom] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [currentProject, setCurrentProject] = useState(null);
-  const VIEW_CREATE_A_PROJECT = "view create a project";
-  const VIEW_ROOM = "view room";
-  const VIEW_ADD_CONTRIBUTION_FORM = "view add contribution form";
-  const VIEW_PROJECT_DETAILS = "view project details";
-  const views = [VIEW_ROOM, VIEW_ADD_CONTRIBUTION_FORM, VIEW_PROJECT_DETAILS];
-  const [currentView, setCurrentView] = useState(views[0]);
-  const auth = firebase.auth();
-  const currentUserId = firebase.auth().currentUser
-    ? firebase.auth().currentUser.uid
-    : "anonymous";
-  const [key, setKey] = useState("home");
 
   const [showRoomOverview, setShowRoomOverview] = useState(true);
   console.log(roomId);
@@ -82,24 +68,46 @@ function RoomControl(props) {
   function CheckDocExistence() {
     roomRef
       .get()
-      .then((docSnapshot) => {
-        console.log(docSnapshot);
-        if (docSnapshot.exists) {
-          roomRef.onSnapshot((doc) => {
-            setRoom(doc);
-          });
-          return true;
+      .then((doc) => {
+        if (!doc.exists) {
+          console.log("No such document!");
+          return <p>Doc not found.</p>;
         } else {
-          return false;
+          console.log("Document data:", doc.data());
+          return <Room roomId={roomId} />;
         }
       })
-      .catch((error) => <p>{error.message}</p>);
+      .catch((err) => {
+        console.log("Error getting document", err);
+        return <Redirect to={`/room`} />;
+      });
+    return null;
   }
 
-  if (isLoaded(currentRoom)) {
-    return <Room roomId={roomId} />;
+  function checkDocExistence() {
+    roomRef
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          console.log("No such document!");
+          return false;
+        } else {
+          setRoom(doc.data);
+          console.log("Document data:", doc.data());
+          return true;
+        }
+      })
+      .catch((err) => {
+        console.log("Error getting document", err);
+        return false;
+      });
+    return false;
+  }
+
+  if (checkDocExistence() && room != null) {
+    return <CheckDocExistence />;
   } else {
-    return <p>Doc not found.</p>;
+    return <LoadingScreen />;
   }
 }
 
