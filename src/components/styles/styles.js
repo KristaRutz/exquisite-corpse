@@ -3,6 +3,12 @@ const styles = {
     marginTop: "0.75em",
     marginBottom: "0.25em",
   },
+  blockHeaders: {
+    marginTop: "2em",
+  },
+  blockParagraphs: {
+    marginTop: "2em",
+  },
   timestampPill: {
     backgroundColor: "#EFEFEF",
     borderRadius: "0.25rem",
@@ -11,7 +17,7 @@ const styles = {
   },
   navbar: {
     marginTop: 100,
-    paddingBottom: 40,
+    padding: "40px 0px",
   },
 };
 

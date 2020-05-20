@@ -27,7 +27,7 @@ function CreateProjectForm(props) {
       authors: [],
       authorId: author,
       roomId,
-      // isPrivate/Public?
+      isPublic: false,
     };
     console.log(newProject);
     db.collection("projects").add(newProject);

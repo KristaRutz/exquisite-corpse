@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import Media from "react-bootstrap/Media";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import styles from "./styles";
+import styles from "./styles/styles";
 
 function ProjectGallery(props) {
   const {

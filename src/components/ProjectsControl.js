@@ -12,7 +12,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import sampleProject from "./SampleProject";
-import styles from "./styles";
+import styles from "./styles/styles";
 
 function ProjectsControl(props) {
   const [creatingProject, setCreatingProject] = useState(false);

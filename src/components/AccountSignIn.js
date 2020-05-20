@@ -4,8 +4,8 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
-import styles from "./styles";
-import "./firebaseui-styling.global.css";
+import styles from "./styles/styles";
+import "./styles/firebaseui-styling.global.css";
 //import * as firebaseui from "firebaseui";
 import LoadingScreen from "./LoadingScreen";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
@@ -57,6 +57,7 @@ function AccountSignIn() {
       <h1 className="display-3" style={styles.headerMargin}>
         Sign in to jam
       </h1>
+      <hr />
       <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <div id="loader">
         <LoadingScreen />

@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import { useFirestore } from "react-redux-firebase";
 import { useState } from "react";
 import firebase from "firebase/app";
-import "./CreateRoomForm.css";
+import "./styles/CreateRoomForm.css";
 import { Redirect } from "react-router-dom";
 
 function CreateRoomForm() {

@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../logo.svg";
-import "./Loading.css";
+import "./styles/Loading.css";
 
 function Loading() {
   return (

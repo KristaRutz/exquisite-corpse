@@ -6,9 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import AboutPage from "./About";
 import Header from "./Header";
+import Footer from "./Footer";
 import Loading from "./Loading";
 import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
-import ProjectControl from "./ProjectControl";
+import ProjectsControl from "./ProjectsControl";
 import CreateRoomForm from "./CreateRoomForm";
 import Room from "./Room";
 import AccountControl from "./AccountControl";
@@ -28,6 +29,9 @@ function App() {
       <Header />
       <AuthIsLoaded>
         <Switch>
+          <Route path="/about">
+            <AboutPage />
+          </Route>
           <Route path="/room/:id">
             <RoomRouting />
           </Route>
@@ -46,12 +50,11 @@ function App() {
             <AccountControl />
           </Route>
           <Route path="/">
-            <Container fluid>
-              <AboutPage />
-            </Container>
+            <ProjectsControl />
           </Route>
         </Switch>
       </AuthIsLoaded>
+      <Footer />
     </BrowserRouter>
   );
 }

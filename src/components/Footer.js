@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles";
+import styles from "./styles/styles";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -14,21 +14,24 @@ function Footer() {
     <>
       <Navbar
         sticky="bottom"
+        expand="xs"
         bg="light"
-        expand="lg"
         variant="light"
         style={styles.navbar}
       >
-        <Container fluid>
+        <Container>
           <Navbar.Brand href="/">StoryJam</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="justify-content-between">
-              <Nav.Link href="/new">New Room</Nav.Link>
-              <Nav.Link href="/room">Room</Nav.Link>
-              <Nav.Link href="/loading">Link</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
+        </Container>
+        <Container>
+          <Nav className="justify-content-between">
+            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link href="https://github.com/KristaRutz/story-jam">
+              Fork from GitHub
+            </Nav.Link>
+            <Nav.Link href="https://github.com/KristaRutz/story-jam/blob/master/LICENSE">
+              &copy; 2020 Krista Rutz
+            </Nav.Link>
+          </Nav>
         </Container>
       </Navbar>
     </>
