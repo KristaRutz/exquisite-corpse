@@ -1,24 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import firebase from "firebase/app";
 import { isLoaded } from "react-redux-firebase";
 import LoadingScreen from "./LoadingScreen";
 import AccountSignIn from "./AccountSignIn";
 import AccountDetails from "./AccountDetails";
-import { useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Container from "react-bootstrap/Container";
 
 function AccountControl() {
-  const views = ["register", "login", "logged out"];
-  const [currentView, setCurrentView] = useState(views[1]);
+  const VIEW_ACCOUNT_SIGNIN = "view account signin";
+  const VIEW_SIGNED_OUT = "view signed out";
+  const [currentView, setCurrentView] = useState(VIEW_ACCOUNT_SIGNIN);
   const auth = firebase.auth();
   console.log(firebase.auth());
-  function handleViewRegister() {
-    //setCurrentView(views[0]);
-  }
+
   function handleViewLogIn() {
-    setCurrentView(views[1]);
-  }
-  function handleViewLogOut() {
-    setCurrentView(views[1]);
+    setCurrentView(VIEW_ACCOUNT_SIGNIN);
   }
 
   function doSignOut() {
@@ -26,11 +23,7 @@ function AccountControl() {
       .auth()
       .signOut()
       .then(function () {
-        handleViewLogOut();
-        console.log("Successfully signed out!");
-        // swal.fire(
-        //   'Successfully signed out!',
-        // )
+        setCurrentView(VIEW_SIGNED_OUT);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -39,12 +32,20 @@ function AccountControl() {
 
   if (!isLoaded(auth)) {
     return <LoadingScreen />;
+  } else if (currentView === VIEW_SIGNED_OUT) {
+    return (
+      <>
+        <Container>
+          <br />
+          <Alert variant="primary">You've successfully signed out!</Alert>
+        </Container>
+        <AccountSignIn />
+      </>
+    );
   } else if (auth.currentUser != null) {
     return <AccountDetails user={auth.currentUser} onLogOutClick={doSignOut} />;
-  } else if (currentView === "login") {
-    return <AccountSignIn onRegisterClick={handleViewRegister} />;
-  } else if (currentView === "logged out") {
-    return <>{/* loggedOutScreen? */}</>;
+  } else {
+    return <AccountSignIn />;
   }
 }
 

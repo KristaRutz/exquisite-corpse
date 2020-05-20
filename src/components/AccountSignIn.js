@@ -1,14 +1,10 @@
 import React from "react";
-//import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import firebase from "firebase";
 import styles from "./styles/styles";
 import "./styles/firebaseui-styling.global.css";
 //import * as firebaseui from "firebaseui";
 import LoadingScreen from "./LoadingScreen";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import FirebaseAuth from "react-firebaseui/FirebaseAuth";
 
 const uiConfig = {
@@ -55,7 +51,7 @@ function AccountSignIn() {
   return (
     <Container>
       <h1 className="display-3" style={styles.headerMargin}>
-        Sign in to jam
+        Sign in to start
       </h1>
       <hr />
       <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
@@ -65,9 +61,5 @@ function AccountSignIn() {
     </Container>
   );
 }
-
-// AccountSignIn.propTypes = {
-//   onRegisterClick: PropTypes.func,
-// };
 
 export default AccountSignIn;
