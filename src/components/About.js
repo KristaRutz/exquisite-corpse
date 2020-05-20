@@ -38,7 +38,8 @@ function AboutPage() {
       </h4>
       <p style={styles.blockParagraphs}>
         <span class="lead">The simplest way to get started</span> with StoryJam
-        is to sign in and create a new private room. After generating a room
+        is to <a href="/account">sign in</a> and{" "}
+        <a href="/new">create a new private room</a>. After generating a room
         key, send the unique link to your friends, family, or the students in
         your classroom. They will be able to start new projects in the room and
         contribute to ongoing projects when they join. For example, a user may
