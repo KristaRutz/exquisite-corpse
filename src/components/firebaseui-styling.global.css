@@ -1,0 +1,39 @@
+#firebaseui_container {
+  margin-top: 40px;
+}
+.firebaseui-container {
+  background: rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  min-height: 150px;
+  padding-top: 10px;
+  border-radius: 20px;
+  box-shadow: none;
+}
+.firebaseui-container.firebaseui-page-provider-sign-in {
+  background: transparent;
+  background-color: #ffc107;
+  box-shadow: none;
+  min-height: 0;
+  margin-bottom: 0;
+  /* padding-top: 0; */
+}
+.firebaseui-container.firebaseui-id-page-callback {
+  background: transparent;
+  box-shadow: none;
+  margin-top: 40px;
+  height: 84px;
+  min-height: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+.firebaseui-card-header {
+  display: none;
+}
+.firebaseui-tos.firebaseui-tospp-full-message {
+  color: rgba(255, 255, 255, 0.7);
+  padding-bottom: 1em;
+}
+li.firebaseui-list-item .mdl-button--raised {
+  box-shadow: none;
+  border-radius: 0.25rem;
+}

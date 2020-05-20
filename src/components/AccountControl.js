@@ -2,8 +2,7 @@ import React from "react";
 import firebase from "firebase/app";
 import { isLoaded } from "react-redux-firebase";
 import LoadingScreen from "./LoadingScreen";
-import RegistrationForm from "./RegistrationForm";
-import LogInForm from "./LogInForm";
+import AccountSignIn from "./AccountSignIn";
 import AccountDetails from "./AccountDetails";
 import { useState } from "react";
 
@@ -11,7 +10,7 @@ function AccountControl() {
   const views = ["register", "login", "logged out"];
   const [currentView, setCurrentView] = useState(views[1]);
   const auth = firebase.auth();
-
+  console.log(firebase.auth());
   function handleViewRegister() {
     //setCurrentView(views[0]);
   }
@@ -42,10 +41,8 @@ function AccountControl() {
     return <LoadingScreen />;
   } else if (auth.currentUser != null) {
     return <AccountDetails user={auth.currentUser} onLogOutClick={doSignOut} />;
-    // } else if (currentView === "register") {
-    //   return <RegistrationForm onLogInClick={handleViewLogIn} />;
   } else if (currentView === "login") {
-    return <LogInForm onRegisterClick={handleViewRegister} />;
+    return <AccountSignIn onRegisterClick={handleViewRegister} />;
   } else if (currentView === "logged out") {
     return <>{/* loggedOutScreen? */}</>;
   }

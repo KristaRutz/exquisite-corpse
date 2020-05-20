@@ -1,9 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import firebase from "firebase";
+import styles from "./styles";
+import "./firebaseui-styling.global.css";
 //import * as firebaseui from "firebaseui";
 import LoadingScreen from "./LoadingScreen";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
@@ -12,25 +14,19 @@ import FirebaseAuth from "react-firebaseui/FirebaseAuth";
 const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
       return true;
     },
     uiShown: function () {
-      // The widget is rendered.
-      // Hide the loader.
       document.getElementById("loader").style.display = "none";
     },
   },
-  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: "popup",
   signInSuccessUrl: "/",
   signInOptions: [
-    // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
   // signInOptions: [
   //   {
@@ -55,12 +51,13 @@ const uiConfig = {
   privacyPolicyUrl: "<your-privacy-policy-url>",
 };
 
-function LogInForm(props) {
+function AccountSignIn() {
   return (
     <Container>
-      <Button onClick={props.onRegisterClick}>Toggle register</Button>
-      <h1 className="display-2">Sign in to your account</h1>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      <h1 className="display-3" style={styles.headerMargin}>
+        Sign in to jam
+      </h1>
+      <FirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <div id="loader">
         <LoadingScreen />
       </div>
@@ -68,8 +65,8 @@ function LogInForm(props) {
   );
 }
 
-LogInForm.propTypes = {
-  onRegisterClick: PropTypes.func,
-};
+// AccountSignIn.propTypes = {
+//   onRegisterClick: PropTypes.func,
+// };
 
-export default LogInForm;
+export default AccountSignIn;
