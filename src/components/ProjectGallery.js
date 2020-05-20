@@ -19,7 +19,7 @@ function ProjectGallery(props) {
     : "anonymous";
   return (
     <Container>
-      <h1>Project Gallery</h1>
+      <h1>Gallery</h1>
       <ListGroup>
         {projects
           //.filter((project) => project.isPublished)

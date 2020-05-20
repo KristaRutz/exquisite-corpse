@@ -12,6 +12,7 @@ import { BrowserRouter, Switch, Route, useParams } from "react-router-dom";
 import ProjectsControl from "./ProjectsControl";
 import CreateRoomForm from "./CreateRoomForm";
 import Room from "./Room";
+import RoomControl from "./RoomControl";
 import AccountControl from "./AccountControl";
 import LoadingScreen from "./LoadingScreen";
 
@@ -72,5 +73,5 @@ export default App;
 
 function RoomRouting() {
   let { id } = useParams();
-  return <Room roomId={id} />;
+  return <RoomControl roomId={id} />;
 }

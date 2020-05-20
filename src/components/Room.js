@@ -28,9 +28,16 @@ import RoomKeyInput from "./RoomKeyInput";
 
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
-  useFirestoreConnect([{ collection: "projects" }]);
+  useFirestoreConnect([
+    { collection: "projects" },
+    { collection: "rooms", doc: roomId },
+  ]);
   const db = useFirestore();
   const projects = useSelector((state) => state.firestore.ordered.projects);
+  //db.get({ collection: "rooms", doc: roomId });
+  //const room = useSelector(({ firestore: { data } }) => data.rooms[roomId]);
+  const roomRef = db.collection("rooms").doc(roomId);
+  const [room, setRoom] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
   const VIEW_CREATE_A_PROJECT = "view create a project";
@@ -44,6 +51,8 @@ function Room(props) {
     ? firebase.auth().currentUser.uid
     : "anonymous";
   const [key, setKey] = useState("home");
+
+  const [showRoomOverview, setShowRoomOverview] = useState(true);
   console.log(roomId);
 
   function handleProjectClick(project) {
@@ -82,8 +91,52 @@ function Room(props) {
   function handleDeleteProject(project) {
     db.collection("projects").doc(project.id).delete();
   }
+  function handleJoinClick() {
+    alert("you joined the room!");
+    setShowRoomOverview(false);
+  }
+
+  function RoomOverview() {
+    if (showRoomOverview) {
+      return (
+        <>
+          <Modal
+            show={() => setShowRoomOverview(true)}
+            onHide={() => setShowRoomOverview(false)}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Welcome to the room!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Room #{roomId}</Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleJoinClick}>
+                Join
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  function checkDocExistence() {
+    roomRef.get().then((docSnapshot) => {
+      console.log(docSnapshot);
+      if (docSnapshot.exists) {
+        roomRef.onSnapshot((doc) => {
+          setRoom(doc);
+        });
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
 
   if (isLoaded(projects) && isLoaded(auth)) {
+    console.log(room);
     const roomProjects = projects.filter(
       (project) => project.roomId === roomId
     );
@@ -94,8 +147,7 @@ function Room(props) {
           onCreateContributionFormSubmission={handleClose}
         />
       );
-    }
-    if (currentView === views[2] && currentProject != null) {
+    } else if (currentView === views[2] && currentProject != null) {
       return (
         <ProjectDetails
           project={currentProject}
@@ -105,6 +157,7 @@ function Room(props) {
     } else {
       return (
         <>
+          <RoomOverview />
           <Container>
             <h1 className="display-2">...room</h1>
             {/* <RoomKeyInput /> */}
@@ -193,33 +246,6 @@ function Room(props) {
                 </Col>
               </Row>
             </Tab.Container>
-            {/* <Container>
-              <Tabs
-                id="controlled-tab-example"
-                activeKey={key}
-                onSelect={(k) => setKey(k)}
-              >
-                <Tab eventKey="home" title="Home">
-                  <OngoingProjectsList
-                    projects={projects}
-                    handleDeleteProject={handleDeleteProject}
-                    handleProjectClick={handleProjectClick}
-                    handlePublishProject={handlePublishProject}
-                  />
-                </Tab>
-                <Tab eventKey="profile" title="Profile">
-                  <PublishedProjectsList
-                    projects={projects}
-                    handleDeleteProject={handleDeleteProject}
-                    handleProjectClick={handleProjectClick}
-                    handlePublishProject={handlePublishProject}
-                  />
-                </Tab>
-                <Tab eventKey="contact" title="Contact">
-                  <h1>tab 3</h1>
-                </Tab>
-              </Tabs>
-            </Container> */}
           </Container>
 
           <Modal show={showModal} onHide={handleClose}>
