@@ -18,32 +18,16 @@ function ProjectsControl(props) {
   const [creatingProject, setCreatingProject] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // const { roomId, onSelectRoomClick } = props;
   useFirestoreConnect([{ collection: "projects" }]);
   const db = useFirestore();
   const projects = useSelector((state) => state.firestore.ordered.projects);
-  // const [showModal, setShowModal] = useState(false);
-  // const [currentProject, setCurrentProject] = useState(null);
-  // const VIEW_CREATE_A_PROJECT = "view create a project";
-  // const VIEW_ROOM = "view room";
-  // const VIEW_ADD_CONTRIBUTION_FORM = "view add contribution form";
-  // const VIEW_PROJECT_DETAILS = "view project details";
-  // const views = [VIEW_ROOM, VIEW_ADD_CONTRIBUTION_FORM, VIEW_PROJECT_DETAILS];
-  // const [currentView, setCurrentView] = useState(views[0]);
-  // const auth = firebase.auth();
-  // const currentUserId = firebase.auth().currentUser
-  //   ? firebase.auth().currentUser.uid
-  //   : "anonymous";
-  // const [key, setKey] = useState("home");
-  // console.log(roomId);
 
   const handleCancelClick = () => {
     setCreatingProject(false);
     setSelectedProject(null);
   };
-  const handleSelectProjectClick = () => {
-    alert("Clicked!");
-    const project = sampleProject; // eventually search by ID and rebuild relevant info
+  const handleSelectProjectClick = (project) => {
+    //const project = sampleProject; // eventually search by ID and rebuild relevant info
     setSelectedProject(project);
   };
 
@@ -54,7 +38,6 @@ function ProjectsControl(props) {
     setCreatingProject(false);
     alert("project was successfully created!");
   };
-
   const nullFunction = () => {};
 
   if (isLoaded(projects)) {
@@ -65,7 +48,12 @@ function ProjectsControl(props) {
         />
       );
     } else if (selectedProject != null) {
-      return <ProjectDashboard project={selectedProject} />;
+      return (
+        <ProjectDashboard
+          project={selectedProject}
+          onBackToGalleryClick={handleCancelClick}
+        />
+      );
     } else {
       return (
         <Container>

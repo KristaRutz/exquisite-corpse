@@ -22,7 +22,7 @@ function ProjectGallery(props) {
       <h1>Gallery</h1>
       <ListGroup>
         {projects
-          //.filter((project) => project.isPublished)
+          .filter((project) => project.isPublished && project.isPublic)
           .map((project) => (
             <ListGroup.Item key={project.id}>
               <Media>
