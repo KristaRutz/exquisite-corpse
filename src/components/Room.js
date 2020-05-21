@@ -25,40 +25,48 @@ import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
 import { useRouteMatch } from "react-router-dom";
 import RoomKeyInput from "./RoomKeyInput";
+import RoomMemberList from "./RoomMemberList";
+
+const VIEW_CREATE_A_PROJECT = "VIEW_CREATE_A_PROJECT";
+const VIEW_ROOM = "VIEW_ROOM";
+const VIEW_LEAVE_ROOM = "VIEW_LEAVE_ROOM";
+const VIEW_MEMBERS = "VIEW_MEMBERS";
+const VIEW_ADD_CONTRIBUTION_FORM = "VIEW_ADD_CONTRIBUTION_FORM";
+const VIEW_PROJECT_DETAILS = "VIEW_PROJECT_DETAILS";
+const VIEW_PUBLISHED_PROJECTS = "VIEW_PUBLISHED_PROJECTS";
+const VIEW_ONGOING_PROJECTS = "VIEW_ONGOING_PROJECTS";
 
 function Room(props) {
   const { roomId, onSelectRoomClick } = props;
-  useFirestoreConnect([
-    { collection: "projects" },
-    { collection: "rooms", doc: roomId },
-  ]);
-  const db = useFirestore();
-  const projects = useSelector((state) => state.firestore.ordered.projects);
-  //db.get({ collection: "rooms", doc: roomId });
-  //const room = useSelector(({ firestore: { data } }) => data.rooms[roomId]);
-  const roomRef = db.collection("rooms").doc(roomId);
-  const [room, setRoom] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [currentProject, setCurrentProject] = useState(null);
-  const VIEW_CREATE_A_PROJECT = "view create a project";
-  const VIEW_ROOM = "view room";
-  const VIEW_ADD_CONTRIBUTION_FORM = "view add contribution form";
-  const VIEW_PROJECT_DETAILS = "view project details";
-  const views = [VIEW_ROOM, VIEW_ADD_CONTRIBUTION_FORM, VIEW_PROJECT_DETAILS];
-  const [currentView, setCurrentView] = useState(views[0]);
+
   const auth = firebase.auth();
   const currentUserId = firebase.auth().currentUser
     ? firebase.auth().currentUser.uid
     : "anonymous";
-  const [key, setKey] = useState("home");
 
+  const db = useFirestore();
+  const roomRef = db.collection("rooms").doc(roomId);
+  const projects = useSelector((state) => state.firestore.ordered.projects);
+  const currentRoomObject = useSelector(
+    ({ firestore: { data } }) => data.rooms && data.rooms[roomId]
+  );
+
+  const [room, setRoom] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [currentProject, setCurrentProject] = useState(null);
+  const [currentView, setCurrentView] = useState(VIEW_ROOM);
+  const [key, setKey] = useState("home");
   const [showRoomOverview, setShowRoomOverview] = useState(true);
-  console.log(roomId);
+
+  useFirestoreConnect([
+    { collection: "projects" },
+    { collection: "rooms", doc: roomId },
+  ]);
 
   function handleProjectClick(project) {
     setCurrentProject(project);
     if (project.isPublished) {
-      setCurrentView(views[2]);
+      setCurrentView(VIEW_PROJECT_DETAILS);
     } else {
       setShowModal(true);
     }
@@ -67,23 +75,14 @@ function Room(props) {
     setShowModal(false);
     setCurrentProject(null);
   };
-  // function handleProjectDetailsClick() {
-  //   return (
-  //     <ProjectDetails
-  //       project={currentProject}
-  //       onBackToRoomClick={handleClose}
-  //     />
-  //   );
-  // }
   function handleOkayClick() {
     setShowModal(false);
-    //setCurrentView(views[1]);
-    setCurrentView(views[1]);
+    setCurrentView(VIEW_ADD_CONTRIBUTION_FORM);
     setKey(VIEW_PROJECT_DETAILS);
   }
   function handleCreateProjectFormSubmission() {
     alert("project was successfully created!");
-    setCurrentView(views[0]);
+    setCurrentView(VIEW_ROOM);
   }
   function handlePublishProject(project) {
     db.collection("projects").doc(project.id).update({ isPublished: true });
@@ -92,12 +91,39 @@ function Room(props) {
     db.collection("projects").doc(project.id).delete();
   }
   function handleJoinClick() {
-    alert("you joined the room!");
+    if (auth.currentUser != null) {
+      const memberObject = {
+        id: currentUserId,
+        displayName: auth.currentUser
+          ? auth.currentUser.displayName
+          : "Anonymous User",
+      };
+      const isAlreadyMember =
+        currentRoomObject.members.filter(
+          (member) => member.id === memberObject.id
+        ).length > 0
+          ? true
+          : false;
+      if (!isAlreadyMember) {
+        const newMemberList = [...currentRoomObject.members, memberObject];
+        roomRef.update({ members: newMemberList });
+      }
+    }
     setShowRoomOverview(false);
   }
-
+  function handleLeaveClick() {
+    if (auth.currentUser != null) {
+      const editedMemberList = currentRoomObject.members.filter(
+        (member) => member.id != currentUserId
+      );
+      roomRef.update({ members: editedMemberList });
+    }
+  }
   function RoomOverview() {
-    if (showRoomOverview) {
+    if (
+      showRoomOverview &&
+      !currentRoomObject.members.includes(currentUserId)
+    ) {
       return (
         <>
           <Modal
@@ -121,33 +147,19 @@ function Room(props) {
     }
   }
 
-  function checkDocExistence() {
-    roomRef.get().then((docSnapshot) => {
-      console.log(docSnapshot);
-      if (docSnapshot.exists) {
-        roomRef.onSnapshot((doc) => {
-          setRoom(doc);
-        });
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
-
-  if (isLoaded(projects) && isLoaded(auth)) {
+  if (isLoaded(projects) && isLoaded(auth) && isLoaded(currentRoomObject)) {
     console.log(room);
     const roomProjects = projects.filter(
       (project) => project.roomId === roomId
     );
-    if (currentView === views[1] && currentProject != null) {
+    if (currentView === VIEW_ADD_CONTRIBUTION_FORM && currentProject != null) {
       return (
         <CreateContributionForm
           project={currentProject}
           onCreateContributionFormSubmission={handleClose}
         />
       );
-    } else if (currentView === views[2] && currentProject != null) {
+    } else if (currentView === VIEW_PROJECT_DETAILS && currentProject != null) {
       return (
         <ProjectDetails
           project={currentProject}
@@ -159,16 +171,13 @@ function Room(props) {
         <>
           <RoomOverview />
           <Container>
-            <h1 className="display-2">...room</h1>
+            <h1 className="display-2">Room</h1>
             {/* <RoomKeyInput /> */}
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+            <Tab.Container defaultActiveKey="first">
               <Row>
                 <Col sm={3}>
-                  {/* <hr /> */}
-
                   <Container>
                     <p>Projects</p>
-
                     <Nav variant="pills" className="flex-column">
                       <Nav.Item>
                         <Nav.Link eventKey={VIEW_CREATE_A_PROJECT}>
@@ -176,10 +185,12 @@ function Room(props) {
                         </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="first">Ongoing Projects</Nav.Link>
+                        <Nav.Link eventKey={VIEW_ONGOING_PROJECTS}>
+                          Ongoing Projects
+                        </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="second">
+                        <Nav.Link eventKey={VIEW_PUBLISHED_PROJECTS}>
                           Published Projects
                         </Nav.Link>
                       </Nav.Item>
@@ -190,10 +201,17 @@ function Room(props) {
                     <p>Room Settings</p>
                     <Nav variant="pills" className="flex-column">
                       <Nav.Item>
-                        <Nav.Link eventKey="1">View Members</Nav.Link>
+                        <Nav.Link eventKey={VIEW_MEMBERS}>
+                          View Members
+                        </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                        <Nav.Link eventKey="2">Leave Room</Nav.Link>
+                        <Nav.Link onClick={handleJoinClick}>Join Room</Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link onClick={handleLeaveClick}>
+                          Leave Room
+                        </Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </Container>
@@ -210,7 +228,7 @@ function Room(props) {
                           }
                         />
                       </Tab.Pane>
-                      <Tab.Pane eventKey="first">
+                      <Tab.Pane eventKey={VIEW_ONGOING_PROJECTS}>
                         <h1>Header 1</h1>
                         <OngoingProjectsList
                           projects={roomProjects}
@@ -219,13 +237,19 @@ function Room(props) {
                           handlePublishProject={handlePublishProject}
                         />
                       </Tab.Pane>
-                      <Tab.Pane eventKey="second">
+                      <Tab.Pane eventKey={VIEW_PUBLISHED_PROJECTS}>
                         <h1>Header 2</h1>
                         <PublishedProjectsList
                           projects={roomProjects}
                           handleDeleteProject={handleDeleteProject}
                           handleProjectClick={handleProjectClick}
                           handlePublishProject={handlePublishProject}
+                        />
+                      </Tab.Pane>
+                      <Tab.Pane eventKey={VIEW_MEMBERS}>
+                        <h1>Room Members</h1>
+                        <RoomMemberList
+                          memberList={currentRoomObject.members}
                         />
                       </Tab.Pane>
                       <Tab.Pane eventKey={VIEW_PROJECT_DETAILS}>
@@ -283,7 +307,6 @@ function Room(props) {
 
 Room.propTypes = {
   roomId: PropTypes.string,
-  //onSelectRoomClick: PropTypes.func,
 };
 
 export default Room;
