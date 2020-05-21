@@ -30,20 +30,19 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/new">New Room</Nav.Link>
-              <Nav.Link href="/room">Room</Nav.Link>
-              <Nav.Link href="/loading">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
+              <Nav.Link href="/new">New Room +</Nav.Link>
+              <Nav.Link href="/room">Commons</Nav.Link>
+              {/* <Nav.Link href="/loading">Link</Nav.Link> */}
+              {/* <NavDropdown title="Rooms" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/room/commons">
+                  Common Room
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
+                <NavDropdown.Item href="/new">New Room</NavDropdown.Item>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/account">My Account</NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown.Item href="/account">My Rooms</NavDropdown.Item>
+              </NavDropdown> */}
+              <Nav.Link href="/account">Account</Nav.Link>
             </Nav>
             <RoomKeyInput />
           </Navbar.Collapse>
@@ -55,7 +54,7 @@ function Header() {
 
 const styles = {
   navBar: {
-    opacity: 0.9,
+    opacity: 0.95,
   },
 };
 

@@ -37,7 +37,7 @@ function App() {
             <RoomRouting />
           </Route>
           <Route path="/room">
-            <Room />
+            <Room roomId="commons" />
           </Route>
           <Route path="/loading">
             <div className="App">
