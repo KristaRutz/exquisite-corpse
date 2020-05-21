@@ -12,6 +12,7 @@ import FormGroup from "react-bootstrap/FormGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import styles from "./styles/styles";
+import UserRooms from "./UserRooms";
 
 function AccountDetails(props) {
   const { user, onLogOutClick } = props;
@@ -62,6 +63,7 @@ function AccountDetails(props) {
         <hr />
 
         <h3 style={styles.headerMargin}>My Rooms</h3>
+        <UserRooms userId={user.uid} />
       </Container>
     );
   }
