@@ -23,6 +23,8 @@ import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
 import RoomMemberList from "./RoomMemberList";
 import styles from "./styles/styles";
+import { FaCopy } from "react-icons/fa";
+import { MdVpnKey } from "react-icons/md";
 
 const VIEW_CREATE_A_PROJECT = "VIEW_CREATE_A_PROJECT";
 const VIEW_ROOM = "VIEW_ROOM";
@@ -80,9 +82,16 @@ function Room(props) {
   function handleCreateProjectFormSubmission() {
     alert("project was successfully created!");
     setCurrentView(VIEW_ROOM);
+    setKey(VIEW_ONGOING_PROJECTS);
   }
   function handlePublishProject(project) {
-    db.collection("projects").doc(project.id).update({ isPublished: true });
+    if (currentRoomObject.isPublic) {
+      db.collection("projects")
+        .doc(project.id)
+        .update({ isPublished: true, isPublic: true });
+    } else {
+      db.collection("projects").doc(project.id).update({ isPublished: true });
+    }
   }
   function handleDeleteProject(project) {
     db.collection("projects").doc(project.id).delete();
@@ -128,10 +137,36 @@ function Room(props) {
             onHide={() => setShowRoomOverview(false)}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Welcome to the room!</Modal.Title>
+              <Modal.Title>{currentRoomObject.roomName}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Room #{roomId}</Modal.Body>
+            <Modal.Body>
+              <p>
+                <span className="lead">Welcome! </span>
+                Here's the key code you can use to enter this room. Copy and
+                paste it to invite friends!
+              </p>
+              <h3 className="text-center">
+                <code>
+                  <MdVpnKey /> {roomId}
+                </code>{" "}
+                {/* <Button
+                  onClick={() => {
+                    roomId.select();
+                    document.execCommand("copy");
+                  }}
+                  variant="light"
+                >
+                  <FaCopy />
+                </Button> */}
+              </h3>
+            </Modal.Body>
             <Modal.Footer>
+              <Button
+                variant="primary"
+                onClick={() => setShowRoomOverview(false)}
+              >
+                Join later
+              </Button>
               <Button variant="primary" onClick={handleJoinClick}>
                 Join
               </Button>
@@ -171,7 +206,7 @@ function Room(props) {
             <h1 className="display-3" style={styles.headerMargin}>
               {currentRoomObject.roomName}
             </h1>
-            <Tab.Container defaultActiveKey={VIEW_PUBLISHED_PROJECTS}>
+            <Tab.Container defaultActiveKey={key}>
               <Row>
                 <Col sm={3}>
                   <Container>
