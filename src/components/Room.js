@@ -1,31 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
-import Media from "react-bootstrap/Media";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import { BsCollectionFill } from "react-icons/bs";
 import firebase from "firebase/app";
-import { useFirestore } from "react-redux-firebase";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useFirestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
+import {
+  useFirestore,
+  useFirestoreConnect,
+  isLoaded,
+  isEmpty,
+} from "react-redux-firebase";
 import CreateContributionForm from "./CreateContributionForm";
 import ProjectDetails from "./ProjectDetails";
 import OngoingProjectsList from "./OngoingProjectsList";
 import PublishedProjectsList from "./PublishedProjectsList";
 import LoadingScreen from "./LoadingScreen";
 import CreateProjectForm from "./CreateProjectForm";
-import { useRouteMatch } from "react-router-dom";
-import RoomKeyInput from "./RoomKeyInput";
 import RoomMemberList from "./RoomMemberList";
+import styles from "./styles/styles";
 
 const VIEW_CREATE_A_PROJECT = "VIEW_CREATE_A_PROJECT";
 const VIEW_ROOM = "VIEW_ROOM";
@@ -55,7 +52,7 @@ function Room(props) {
   const [showModal, setShowModal] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
   const [currentView, setCurrentView] = useState(VIEW_ROOM);
-  const [key, setKey] = useState("home");
+  const [key, setKey] = useState(VIEW_PUBLISHED_PROJECTS);
   const [showRoomOverview, setShowRoomOverview] = useState(true);
 
   useFirestoreConnect([
@@ -171,9 +168,10 @@ function Room(props) {
         <>
           <RoomOverview />
           <Container>
-            <h1 className="display-2">Room</h1>
-            {/* <RoomKeyInput /> */}
-            <Tab.Container defaultActiveKey="first">
+            <h1 className="display-3" style={styles.headerMargin}>
+              {currentRoomObject.roomName}
+            </h1>
+            <Tab.Container defaultActiveKey={VIEW_PUBLISHED_PROJECTS}>
               <Row>
                 <Col sm={3}>
                   <Container>
@@ -229,7 +227,6 @@ function Room(props) {
                         />
                       </Tab.Pane>
                       <Tab.Pane eventKey={VIEW_ONGOING_PROJECTS}>
-                        <h1>Header 1</h1>
                         <OngoingProjectsList
                           projects={roomProjects}
                           handleDeleteProject={handleDeleteProject}
@@ -238,7 +235,6 @@ function Room(props) {
                         />
                       </Tab.Pane>
                       <Tab.Pane eventKey={VIEW_PUBLISHED_PROJECTS}>
-                        <h1>Header 2</h1>
                         <PublishedProjectsList
                           projects={roomProjects}
                           handleDeleteProject={handleDeleteProject}
@@ -252,7 +248,7 @@ function Room(props) {
                           memberList={currentRoomObject.members}
                         />
                       </Tab.Pane>
-                      <Tab.Pane eventKey={VIEW_PROJECT_DETAILS}>
+                      {/* <Tab.Pane eventKey={VIEW_PROJECT_DETAILS}>
                         {currentProject != null ? (
                           <>
                             <h1>Project Details</h1>
@@ -264,7 +260,7 @@ function Room(props) {
                         ) : (
                           <p>null</p>
                         )}
-                      </Tab.Pane>
+                      </Tab.Pane> */}
                     </Tab.Content>
                   </Container>
                 </Col>
