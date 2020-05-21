@@ -14,6 +14,8 @@
 
 ### This application, based on a tradition of using physical paper to hide previous work in an "exquisite corpse" methodology, allows a group of users to collectively build story that grows synergistically with each contribution.
 
+### _The proposal presentation can be found [on Google Slides](https://docs.google.com/presentation/d/14aRqIYljajNijRXacMrbP1AJL0_QEwlR_JGi-O9-kcU/edit?usp=sharing)._
+
 Similar to the parlour games of mad libs, consequences, or [Exquisite Corpse](https://en.wikipedia.org/wiki/Exquisite_corpse), a Surrealist technique to create stories or works of art as a group, Story Jam allows people to work together to write a more interesting story. Each person takes turns contributing without being able to see or predict the total outcome. As the story gets larger, the contributions have a lower chance of fitting well together, adding an element of amusement and surprise.
 
 Story Jam a platform that enables people to use this technique electronically, with people that might not be sitting right next to them in the parlour. A user might receive a partially complete story or poem and be prompted to add a few lines, some exposition, or a new plot development before sending it on to the next user to grow the story.
