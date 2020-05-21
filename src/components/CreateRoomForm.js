@@ -27,13 +27,20 @@ function CreateRoomForm() {
       : auth.currentUser != null
       ? auth.currentUser.uid
       : "anonymous";
+    const member = {
+      id: owner,
+      displayName:
+        auth.currentUser != null
+          ? auth.currentUser.displayName
+          : "Anonymous User",
+    };
     const newRoom = {
       roomName: event.target.roomName.value,
       description: event.target.description.value,
       isPublic: isPublic,
       isLocked: false,
       isClosed: false,
-      members: [],
+      members: [member],
       ownerId: owner,
       timeCreated: db.FieldValue.serverTimestamp(),
     };
