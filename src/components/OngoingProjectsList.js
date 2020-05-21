@@ -75,10 +75,14 @@ function OngoingProjectsList(props) {
                   <Media.Body onClick={() => handleProjectClick(project)}>
                     <Container>
                       <h5>{project.title}</h5>
-                      <p>
-                        Created at{" "}
-                        {project.timeCreated.toDate().toLocaleTimeString()}
-                      </p>
+                      {project.timeCreated ? (
+                        <p>
+                          Created at{" "}
+                          {project.timeCreated.toDate().toLocaleTimeString()}
+                        </p>
+                      ) : (
+                        <></>
+                      )}
                       <p className="lead">{project.description}</p>
                       <ProgressBar
                         striped

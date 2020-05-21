@@ -26,76 +26,75 @@ function PublishedProjectsList(props) {
     handleDeleteProject,
     handleProjectClick,
   } = props;
+  const publishedProjects = projects.filter((project) => project.isPublished);
   const currentUserId = firebase.auth().currentUser
     ? firebase.auth().currentUser.uid
     : "anonymous";
-  if (projects.length < 1) {
+  if (publishedProjects.length < 1) {
     return <Alert variant="primary">No completed projects yet.</Alert>;
   } else {
     return (
       <Container>
         <h1>Published projects</h1>
         <ListGroup>
-          {projects
-            .filter((project) => project.isPublished)
-            .map((project) => (
-              <ListGroup.Item key={project.id}>
-                <Media>
-                  <div>
-                    <ListGroup>
-                      {project.contributionLimit > project.fragments.length ? (
-                        <ListGroup.Item action disabled variant="primary">
-                          Publish
-                        </ListGroup.Item>
-                      ) : (
-                        <ListGroup.Item
-                          variant="primary"
-                          action
-                          onClick={() => handlePublishProject(project)}
-                        >
-                          Publish
-                        </ListGroup.Item>
-                      )}
-                      {currentUserId === project.authorId ||
-                      project.authorId === "anonymous" ? (
-                        <ListGroup.Item
-                          variant="danger"
-                          action
-                          onClick={() => handleDeleteProject(project)}
-                        >
-                          Delete
-                        </ListGroup.Item>
-                      ) : (
-                        <ListGroup.Item action disabled variant="danger">
-                          Delete
-                        </ListGroup.Item>
-                      )}
-                    </ListGroup>
-                  </div>
-                  <Media.Body onClick={() => handleProjectClick(project)}>
-                    <Container>
-                      <h5>{project.title}</h5>
-                      {project.timeCreated.toDate() != null ? (
-                        <p>
-                          Created at{" "}
-                          {project.timeCreated.toDate().toLocaleTimeString()}
-                        </p>
-                      ) : (
-                        <></>
-                      )}
-                      <p className="lead">{project.description}</p>
-                      <ProgressBar
-                        striped
-                        now={
-                          (100 / project.contributionLimit) *
-                          project.fragments.length
-                        }
-                      />
-                    </Container>
-                  </Media.Body>
-                </Media>
-              </ListGroup.Item>
-            ))}
+          {publishedProjects.map((project) => (
+            <ListGroup.Item key={project.id}>
+              <Media>
+                <div>
+                  <ListGroup>
+                    {project.contributionLimit > project.fragments.length ? (
+                      <ListGroup.Item action disabled variant="primary">
+                        Publish
+                      </ListGroup.Item>
+                    ) : (
+                      <ListGroup.Item
+                        variant="primary"
+                        action
+                        onClick={() => handlePublishProject(project)}
+                      >
+                        Publish
+                      </ListGroup.Item>
+                    )}
+                    {currentUserId === project.authorId ||
+                    project.authorId === "anonymous" ? (
+                      <ListGroup.Item
+                        variant="danger"
+                        action
+                        onClick={() => handleDeleteProject(project)}
+                      >
+                        Delete
+                      </ListGroup.Item>
+                    ) : (
+                      <ListGroup.Item action disabled variant="danger">
+                        Delete
+                      </ListGroup.Item>
+                    )}
+                  </ListGroup>
+                </div>
+                <Media.Body onClick={() => handleProjectClick(project)}>
+                  <Container>
+                    <h5>{project.title}</h5>
+                    {project.timeCreated ? (
+                      <p>
+                        Created at{" "}
+                        {project.timeCreated.toDate().toLocaleTimeString()}
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                    <p className="lead">{project.description}</p>
+                    <ProgressBar
+                      striped
+                      now={
+                        (100 / project.contributionLimit) *
+                        project.fragments.length
+                      }
+                    />
+                  </Container>
+                </Media.Body>
+              </Media>
+            </ListGroup.Item>
+          ))}
         </ListGroup>
       </Container>
     );
