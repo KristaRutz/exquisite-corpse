@@ -13,6 +13,9 @@ function ProjectDetails(props) {
         <h1 className="display-4" style={styles.headerMargin}>
           <em>{project.title}</em>
         </h1>
+        <Button onClick={onBackToRoomClick} className="mb-3">
+          Back
+        </Button>
         {/* {project.fragments.length > 0 ? (
         <>
           <h2 style={styles.headerMargin}>The story so far...</h2>
