@@ -1,4 +1,4 @@
-# (StoryJam)[https://story-jam.firebaseapp.com/]
+# [StoryJam](https://story-jam.firebaseapp.com/)
 
 #### A React/Firebase application for collaborative writing, last updated _05.22.2020_
 
@@ -16,34 +16,35 @@
 
 Similar to the parlour games of mad libs, consequences, or [Exquisite Corpse](https://en.wikipedia.org/wiki/Exquisite_corpse), a Surrealist technique to create stories or works of art as a group, StoryJam allows people to work together to write a more interesting story. Each person takes turns contributing without being able to see or predict the total outcome. As the story gets larger, the contributions have a lower chance of fitting well together, adding an element of amusement and surprise.
 
-StoryJam a platform that enables people to use this technique electronically, with people that might not be sitting right next to them in the parlour. A user might receive a partially complete story or poem and be prompted to add a few lines, some exposition, or a new plot development before sending it on to the next user to grow the story. For more information, visit the site's (About Page)[https://story-jam.firebaseapp.com/about].
+StoryJam a platform that enables people to use this technique electronically, with people that might not be sitting right next to them in the parlour. A user might receive a partially complete story or poem and be prompted to add a few lines, some exposition, or a new plot development before sending it on to the next user to grow the story. For more information, visit the site's [About Page](https://story-jam.firebaseapp.com/about).
 
 ### Usage
 
 #### Create an account or sign in
 
 Use one of our providers or create a new account using email for a better experience.
-![Create Account or Sign In](./img/screencapture-localhost-3000-new-2020-05-20-22_40_17.png)
+<img src="./img/screencapture-localhost-3000-account-2020-05-20-22_40_17.png" alt="Create Account or Sign In" height="250px">
 
 #### Create a room
 
 Make a private room and send the key to your friends.
-![Create Room View](./img/screencapture-localhost-3000-new-2020-05-20-22_39_22.png)
+<img src="./img/screencapture-localhost-3000-new-2020-05-20-22_39_22.png" alt="Create Room View" height="250px">
 
 #### Enter a room
 
 Enter your room using a key, or visit the commons (a room open to all users).
-![Common Room View](./img/screencapture-localhost-3000-room-2020-05-20-22_38_23.png)
+<img src="./img/
+screencapture-localhost-3000-room-2020-05-20-22_38_23.png" alt="Common Room View" height="250px">
 
 #### Contribute to projects
 
 Start new projects and then build on each others' work by adding brief additions to the project, while only seeing the most recent contribution.
-![Add to project](./img/screencapture-localhost-3000-room-2020-05-20-22_41_30.png)
+<img src="./img/screencapture-localhost-3000-room-2020-05-20-22_41_30.png" alt="Add to project" height="250px">
 
 #### Read published projects
 
 After a number of contributions, projects can be published to reveal the amusing or insightful collaborative creation.
-![Read published project](./img/screencapture-localhost-3000-room-2020-05-20-23_05_15.png)
+<img src="./img/screencapture-localhost-3000-room-2020-05-20-23_05_15.png" alt="Read published project" height="250px">
 
 ### Technologies Used:
 
