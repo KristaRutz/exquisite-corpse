@@ -23,28 +23,21 @@ StoryJam a platform that enables people to use this technique electronically, wi
 #### Create an account or sign in
 
 Use one of our providers or create a new account using email for a better experience.
+<br >
 <img src="./img/screencapture-localhost-3000-account-2020-05-20-22_40_17.png" alt="Create Account or Sign In" height="250px">
 
-#### Create a room
+#### Create and enter a room
 
-Make a private room and send the key to your friends.
-<img src="./img/screencapture-localhost-3000-new-2020-05-20-22_39_22.png" alt="Create Room View" height="250px">
+Make a private room and send the key to your friends. Enter your room using a key, or visit the commons (a room open to all users).
+<br >
+<img src="./img/screencapture-localhost-3000-new-2020-05-20-22_39_22.png" alt="Create Room View" height="200px"> <img src="./img/
+screencapture-localhost-3000-room-2020-05-20-22_38_23.png" alt="Common Room View" height="200px">
 
-#### Enter a room
+#### Contribute to and read projects
 
-Enter your room using a key, or visit the commons (a room open to all users).
-<img src="./img/
-screencapture-localhost-3000-room-2020-05-20-22_38_23.png" alt="Common Room View" height="250px">
-
-#### Contribute to projects
-
-Start new projects and then build on each others' work by adding brief additions to the project, while only seeing the most recent contribution.
-<img src="./img/screencapture-localhost-3000-room-2020-05-20-22_41_30.png" alt="Add to project" height="250px">
-
-#### Read published projects
-
-After a number of contributions, projects can be published to reveal the amusing or insightful collaborative creation.
-<img src="./img/screencapture-localhost-3000-room-2020-05-20-23_05_15.png" alt="Read published project" height="250px">
+Start new projects and then build on each others' work by adding brief additions to the project, while only seeing the most recent contribution. After a number of contributions, projects can be published to reveal the amusing or insightful collaborative creation.
+<br >
+<img src="./img/screencapture-localhost-3000-room-2020-05-20-22_41_30.png" alt="Add to project" height="250px"><img src="./img/screencapture-localhost-3000-room-2020-05-20-23_05_15.png" alt="Read published project" height="250px">
 
 ### Technologies Used:
 
@@ -75,19 +68,23 @@ After a number of contributions, projects can be published to reveal the amusing
 
 ### Component Diagram
 
+<br>
 ![Component Tree](./StoryJam-Component-Diagram.png)
 
 ## Set-up
 
-#### This project is best run from a browser, where it can be found at (https://story-jam.firebaseapp.com/)[https://story-jam.firebaseapp.com/].
+#### This project is best run from a browser, where it can be found at [https://story-jam.firebaseapp.com/](https://story-jam.firebaseapp.com/).
 
 Those wishing to clone the repository from GitHub and enter the folder may do so from the command line by running the following commands.
-`$ git clone https://github.com/KristaRutz/story-jam.git`
-`$ cd story-jam`
+
+- `$ git clone https://github.com/KristaRutz/story-jam.git`
+- `$ cd story-jam`
 
 Locally, this project requires a '.env' file containing the environment variables for a firebase app connection. Create this file in the root directory of the project, replacing each constant with the firebase generated string. You will need to make your own firebase account and application to run this project. This is necessary in order to populate data from the database and to update the database with new data. Complete this step before attempting to run a build or start a local development server.
 
 <details>
+
+```
 REACT_APP_FIREBASE_API_KEY = {api key}
 REACT_APP_FIREBASE_AUTH_DOMAIN = {domain url}
 REACT_APP_FIREBASE_DATABASE_URL = {database url}
@@ -96,16 +93,19 @@ REACT_APP_FIREBASE_STORAGE_BUCKET = {storage bucket}
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID = {messaging sender id}
 REACT_APP_FIREBASE_APP_ID = {firebase app id}
 REACT_APP_FIREBASE_MEASUREMENT_ID = {measurement id}
+```
 
 The database structure should eventually look like this:
-![Database](./img/screencapture-console-firebase-google-u-1-project-story-jam-database-firestore-data-2Fprojects-2F9Aqo0Sol2ObXAI0dB8AG-2020-05-21-11_57_27.png)
+<br>
+<img src="./img/screencapture-console-firebase-google-u-1-project-story-jam-database-firestore-data-2Fprojects-2F9Aqo0Sol2ObXAI0dB8AG-2020-05-21-11_57_27.png" alt="Database" height="250px">
 
 </details>
 
 The basic commands for running this project on a local server can be executed after the previous steps are carried out.
-`$ npm install`
-`$ npm run build`
-`$ npm start`
+
+- `$ npm install`
+- `$ npm run build`
+- `$ npm start`
 
 Because this project was developed with Create-React-App, please look at the [included information](./CRD.md) and React documentation for information about ejecting this project.
 
@@ -114,8 +114,8 @@ Because this project was developed with Create-React-App, please look at the [in
 Software is currently usable in beta but still has several features in development. See the [parking lot of issues](./parkinglot.md) for higher-level information on features that are still under development, which may result in bugs or incomplete information.
 
 Mobile use should be fully supported in the browser, but let me know if you encounter an issue!
-
-![mobile browsing](./img/screencapture-story-jam-firebaseapp-account-2020-05-21-08_47_00.png)
+<br>
+<img src="./img/screencapture-story-jam-firebaseapp-account-2020-05-21-08_47_00.png" alt="mobile browsing" height="100px">
 
 ## Support and Contact Details
 
